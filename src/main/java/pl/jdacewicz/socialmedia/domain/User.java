@@ -12,6 +12,8 @@ public class User {
     private long id;
     private String username;
     private String password;
+    private boolean accountNonLocked = true;
+    private String role = "ROLE_USER";
 
     public User() {
     }
@@ -38,5 +40,21 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean isAccountNonLocked() {
+        return accountNonLocked;
+    }
+
+    public void setAccountNonLocked(boolean accountNonLocked) {
+        this.accountNonLocked = accountNonLocked;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }
