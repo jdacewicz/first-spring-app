@@ -1,7 +1,6 @@
 package pl.jdacewicz.socialmedia.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -10,8 +9,9 @@ import pl.jdacewicz.socialmedia.domain.User;
 import pl.jdacewicz.socialmedia.domain.repo.UserRepository;
 import pl.jdacewicz.socialmedia.service.principal.DBUserPrincipal;
 
+import java.util.Optional;
+
 @Service
-@Qualifier("DB")
 public class DBUserDetailsService implements UserDetailsService {
 
     private UserRepository userRepository;
@@ -30,5 +30,13 @@ public class DBUserDetailsService implements UserDetailsService {
 
     public void createUser(User user) {
         userRepository.save(user);
+    }
+
+    public void updateUser(User user) {
+        userRepository.saveAndFlush(user);
+    }
+
+    public Optional<User> findUserByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 }

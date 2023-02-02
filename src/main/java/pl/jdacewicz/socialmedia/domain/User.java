@@ -14,6 +14,8 @@ public class User {
     private String password;
     private boolean accountNonLocked = true;
     private String role = "ROLE_USER";
+    @OneToOne(cascade = {CascadeType.ALL})
+    private UserInformation userInformation;
 
     public User() {
     }
@@ -56,5 +58,13 @@ public class User {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public UserInformation getUserInformation() {
+        return userInformation;
+    }
+
+    public void setUserInformation(UserInformation userInformation) {
+        this.userInformation = userInformation;
     }
 }

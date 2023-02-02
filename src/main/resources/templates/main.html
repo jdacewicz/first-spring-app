@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>SocialMedia</title>
+</head>
+<body>
+  <h3>Hello! <span th:text="${user.getUserInformation().getFirstname()}"/> <span th:text="${user.getUserInformation().getLastname()}"/></h3>
+</body>
+</html>

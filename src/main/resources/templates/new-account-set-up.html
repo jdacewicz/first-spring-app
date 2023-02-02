@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Set up your account!</title>
+</head>
+<body>
+  <form th:action="@{/about-you}" method="POST">
+    <h2>Tell us who You're.</h2>
+    <div>
+      <label>Your firstname: </label>
+      <input type="text" name="firstname"/>
+    </div>
+    <div>
+      <label>Your lastname: </label>
+      <input type="text" name="lastname"/>
+    </div>
+    <div>
+      <input type="submit" th:value="Finish">
+    </div>
+  </form>
+</body>
+</html>
