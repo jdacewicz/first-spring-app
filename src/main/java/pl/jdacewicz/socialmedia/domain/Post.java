@@ -2,8 +2,8 @@ package pl.jdacewicz.socialmedia.domain;
 
 import jakarta.persistence.*;
 
-import java.sql.Date;
-import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Entity
@@ -14,16 +14,18 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "postId")
     private long id;
-
-    //TODO Set here user who has created this post.
+    @OneToOne
+    private User postCreator;
     private String content;
     private String image;
-    private Timestamp creationTime;
-    private Date creationDate;
+    private LocalTime creationTime;
+    private LocalDate creationDate;
     @OneToMany
     private List<ReactionCount> reactionsCounts;
 
     public Post() {
+        this.creationTime = LocalTime.now();
+        this.creationDate = LocalDate.now();
     }
 
     public long getId() {
@@ -58,19 +60,27 @@ public class Post {
         this.reactionsCounts = postReactionsCount;
     }
 
-    public Timestamp getCreationTime() {
+    public LocalTime getCreationTime() {
         return creationTime;
     }
 
-    public void setCreationTime(Timestamp creationTime) {
+    public void setCreationTime(LocalTime creationTime) {
         this.creationTime = creationTime;
     }
 
-    public Date getCreationDate() {
+    public LocalDate getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(Date creationDate) {
+    public void setCreationDate(LocalDate creationDate) {
         this.creationDate = creationDate;
+    }
+
+    public User getPostCreator() {
+        return postCreator;
+    }
+
+    public void setPostCreator(User postCreator) {
+        this.postCreator = postCreator;
     }
 }

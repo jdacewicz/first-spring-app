@@ -2,9 +2,22 @@
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
   <title>Register</title>
+  <link rel="stylesheet" th:href="@{/css/main.css}">
 </head>
 <body>
-<form th:action="@{/register}" method="POST">
+<ul class="background">
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+</ul>
+<form th:action="@{/register}" method="POST" class="login-form">
   <div>
     <h1>Register</h1>
       <label>Username: </label>
@@ -15,8 +28,9 @@
       <input type="password" name="password" required/>
     </div>
     <div>
-      <input type="submit" value="Register"/>
+      <button type="submit">Register</button>
     </div>
+  <h4>If You want to log in <a href="/login">CLICK HERE</a>.</h4>
   </div>
 </form>
 </body>

@@ -3,9 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <title>Set up your account!</title>
+  <link rel="stylesheet" th:href="@{/css/main.css}">
 </head>
 <body>
-  <form th:action="@{/about-you}" method="POST">
+<ul class="background">
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+</ul>
+  <form th:action="@{/about-you}" method="POST" class="login-form">
     <h2>Tell us who You're.</h2>
     <div>
       <label>Your firstname: </label>
@@ -16,7 +29,7 @@
       <input type="text" name="lastname"/>
     </div>
     <div>
-      <input type="submit" th:value="Finish">
+      <button type="submit">Finish</button>
     </div>
   </form>
 </body>

@@ -6,5 +6,23 @@
 </head>
 <body>
   <h3>Hello! <span th:text="${user.getUserInformation().getFirstname()}"/> <span th:text="${user.getUserInformation().getLastname()}"/></h3>
+  <h3><a href="/new-post">New post</a></h3>
+
+  <div>
+    <div class="posts">
+      <tr class="post" th:each="post : ${posts}">
+        <td th:text=""/>
+        <td th:text=""/>
+      </tr>
+    </div>
+  </div>
 </body>
 </html>
+
+<tr
+        th:each="student, iStat : ${students}"
+        th:style="${iStat.odd}? 'font-weight: bold;'"
+        th:alt-title="${iStat.even}? 'even' : 'odd'">
+  <td th:text="${student.id}" />
+  <td th:text="${student.name}" />
+</tr>
