@@ -22,6 +22,30 @@ html, body {
     border: rgb(250, 250, 250) 0.2em solid;
     text-align: center;
 }
+.post {
+    width: 40%;
+    padding: 15px;
+    margin-bottom: 30px;
+    border-radius: 0.4em;
+    box-shadow: 0.3em 0.3em 0.7em #00000015;
+    transition: border 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: rgb(250, 250, 250) 0.2em solid;
+}
+.first-and-lastname {
+    width: 50%;
+    float: left;
+    text-align: left;
+}
+.post .creation-time-and-data {
+    width: 50%;
+    float: right;
+    text-align: right;
+}
+.post .content {
+    width: 100%;
+    float: none;
+    margin-top: 30px;
+}
 @keyframes animate {
     0%{
         transform: translateY(0) rotate(0deg);

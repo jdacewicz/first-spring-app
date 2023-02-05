@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>SocialMedia</title>
+  <link rel="stylesheet" th:href="@{/css/main.css}">
+</head>
+<body>
+<div>
+  <div class="post">
+    <div class="first-and-lastname">
+      <span th:text="${post.getPostCreator().getUserInformation().getFirstname()}"/>
+      <span th:text="${post.getPostCreator().getUserInformation().getLastname()}"/>
+    </div>
+    <div class="creation-time-and-data">
+      <span th:text="${post.getCreationTime()}"/>
+      <span th:text="${post.getCreationDate()}"/>
+    </div>
+    <div class="content">
+      <span th:text="${post.getContent()}"/>
+    </div>
+    <div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

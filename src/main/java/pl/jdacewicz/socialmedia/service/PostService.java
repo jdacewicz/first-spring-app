@@ -6,6 +6,7 @@ import pl.jdacewicz.socialmedia.domain.Post;
 import pl.jdacewicz.socialmedia.domain.repo.PostRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PostService {
@@ -23,5 +24,9 @@ public class PostService {
 
     public List<Post> getRandomPosts() {
         return postRepository.getRandomPosts();
+    }
+
+    public Optional<Post> getPost(Long id) {
+        return postRepository.findById(id);
     }
 }
