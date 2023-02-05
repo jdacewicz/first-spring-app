@@ -29,7 +29,7 @@ public class AppController {
     public String showMainPage(Model model) {
         //TODO Consider putting it in other class.
         String loggedInUsername = SecurityContextHolder.getContext().getAuthentication().getName();
-        Optional<User> loggedInUser = userDetailsService.findUserByUsername(loggedInUsername);
+        Optional<User> loggedInUser = userDetailsService.getUser(loggedInUsername);
 
         if (loggedInUser.isPresent()) {
             List<Post> postList = postService.getRandomPosts();

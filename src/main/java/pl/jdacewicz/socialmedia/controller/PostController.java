@@ -2,7 +2,6 @@ package pl.jdacewicz.socialmedia.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,7 +36,7 @@ public class PostController {
     @PostMapping("/new-post")
     public String createPost(@RequestParam Map<String, String> body) {
         String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
-        Optional<User> userLoggedIn = detailsService.findUserByUsername(currentUser);
+        Optional<User> userLoggedIn = detailsService.getUser(currentUser);
 
         //TODO Validation
         Post post = new Post();

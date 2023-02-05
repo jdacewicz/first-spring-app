@@ -36,7 +36,11 @@ public class DBUserDetailsService implements UserDetailsService {
         userRepository.saveAndFlush(user);
     }
 
-    public Optional<User> findUserByUsername(String username) {
+    public Optional<User> getUser(String username) {
         return userRepository.findByUsername(username);
+    }
+
+    public Optional<User> getUser(Long id){
+        return userRepository.findById(id);
     }
 }
