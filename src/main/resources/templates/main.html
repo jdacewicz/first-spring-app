@@ -11,18 +11,11 @@
   <div>
     <div class="posts">
       <tr class="post" th:each="post : ${posts}">
-        <td th:text=""/>
-        <td th:text=""/>
+        <td th:text="${post.getPostCreator().getUserInformation().getFirstname()}"/>
+        <td th:text="${post.getPostCreator().getUserInformation().getLastname()}"/>
+        <td th:text="${post.getContent()}"/>
       </tr>
     </div>
   </div>
 </body>
 </html>
-
-<tr
-        th:each="student, iStat : ${students}"
-        th:style="${iStat.odd}? 'font-weight: bold;'"
-        th:alt-title="${iStat.even}? 'even' : 'odd'">
-  <td th:text="${student.id}" />
-  <td th:text="${student.name}" />
-</tr>
