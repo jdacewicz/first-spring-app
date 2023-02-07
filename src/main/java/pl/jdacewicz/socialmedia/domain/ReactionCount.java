@@ -12,9 +12,19 @@ public class ReactionCount {
     private long id;
     @OneToOne
     private Reaction reaction;
-    private int count;
+    private int count = 0;
 
     public ReactionCount() {
+    }
+
+    public void adjustCount(int value) {
+        count += value;
+    }
+
+    public void subtractCount(int value) {
+        if (count >= 0) {
+            count -= value;
+        }
     }
 
     public long getId() {

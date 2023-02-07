@@ -34,4 +34,8 @@ public class PostService {
     public List<Post> getAllPosts(User user) {
         return postRepository.findByPostCreator(user);
     }
+
+    public void updatePost(Post post) {
+        postRepository.saveAndFlush(post);
+    }
 }

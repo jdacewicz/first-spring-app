@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
 @Table(name = "posts")
@@ -26,6 +27,21 @@ public class Post {
     public Post() {
         this.creationTime = LocalTime.now();
         this.creationDate = LocalDate.now();
+    }
+
+    public void react(Reaction reaction) {
+        Optional<ReactionCount> reactionCount = reactionsCounts.stream()
+                .filter(c -> c.getReaction() == reaction)
+                .findFirst();
+
+        if (reactionCount.isPresent()) {
+            ReactionCount rC = reactionCount.get();
+            rC.adjustCount(1);
+        } else {
+            ReactionCount newReactionCount = new ReactionCount();
+            newReactionCount.setReaction(reaction);
+            reactionsCounts.add(newReactionCount);
+        }
     }
 
     public long getId() {
