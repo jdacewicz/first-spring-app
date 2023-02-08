@@ -22,7 +22,7 @@ public class Comment {
     private Timestamp creationTime;
     private Date creationDate;
     @OneToMany
-    private List<ReactionCount> reactionsCounters;
+    private List<ReactionCounter> reactionsCounters;
 
     public Comment() {
     }
@@ -67,11 +67,11 @@ public class Comment {
         this.creationDate = creationDate;
     }
 
-    public List<ReactionCount> getReactionsCounters() {
+    public List<ReactionCounter> getReactionsCounters() {
         return reactionsCounters;
     }
 
-    public void setReactionsCounters(List<ReactionCount> reactionsCounters) {
+    public void setReactionsCounters(List<ReactionCounter> reactionsCounters) {
         this.reactionsCounters = reactionsCounters;
     }
 }

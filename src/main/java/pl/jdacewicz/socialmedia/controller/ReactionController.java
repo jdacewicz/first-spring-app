@@ -1,9 +1,13 @@
 package pl.jdacewicz.socialmedia.controller;
 
+import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import pl.jdacewicz.socialmedia.domain.Post;
 import pl.jdacewicz.socialmedia.domain.Reaction;
 import pl.jdacewicz.socialmedia.service.PostService;
@@ -23,9 +27,9 @@ public class ReactionController {
         this.reactionService = reactionService;
     }
 
-    @PostMapping("/post/{id}/react/{reactionId}")
-    public void reactToPost(@PathVariable Long id, @PathVariable Long reactionId) {
-        Optional<Post> searchedPost = postService.getPost(id);
+    @PostMapping("/post/{postId}/react/{reactionId}")
+    public void reactToPost(@PathVariable Long postId, @PathVariable Long reactionId) {
+        Optional<Post> searchedPost = postService.getPost(postId);
         Optional<Reaction> searchedReaction = reactionService.getReaction(reactionId);
 
         if (searchedPost.isPresent() && searchedReaction.isPresent()) {

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,7 +23,7 @@ public class Post {
     private LocalTime creationTime;
     private LocalDate creationDate;
     @OneToMany
-    private List<ReactionCount> reactionsCounts;
+    private List<ReactionCounter> reactionCounters = new ArrayList<>();
 
     public Post() {
         this.creationTime = LocalTime.now();
@@ -30,17 +31,17 @@ public class Post {
     }
 
     public void react(Reaction reaction) {
-        Optional<ReactionCount> reactionCount = reactionsCounts.stream()
+        Optional<ReactionCounter> reactionCounter = reactionCounters.stream()
                 .filter(c -> c.getReaction() == reaction)
                 .findFirst();
 
-        if (reactionCount.isPresent()) {
-            ReactionCount rC = reactionCount.get();
+        if (reactionCounter.isPresent()) {
+            ReactionCounter rC = reactionCounter.get();
             rC.adjustCount(1);
         } else {
-            ReactionCount newReactionCount = new ReactionCount();
-            newReactionCount.setReaction(reaction);
-            reactionsCounts.add(newReactionCount);
+            ReactionCounter newReactionCounter = new ReactionCounter();
+            newReactionCounter.setReaction(reaction);
+            reactionCounters.add(newReactionCounter);
         }
     }
 
@@ -68,12 +69,12 @@ public class Post {
         this.image = postImage;
     }
 
-    public List<ReactionCount> getReactionsCounts() {
-        return reactionsCounts;
+    public List<ReactionCounter> getReactionsCounters() {
+        return reactionCounters;
     }
 
-    public void setReactionsCounts(List<ReactionCount> postReactionsCount) {
-        this.reactionsCounts = postReactionsCount;
+    public void setReactionsCounters(List<ReactionCounter> postReactionCounters) {
+        this.reactionCounters = postReactionCounters;
     }
 
     public LocalTime getCreationTime() {
