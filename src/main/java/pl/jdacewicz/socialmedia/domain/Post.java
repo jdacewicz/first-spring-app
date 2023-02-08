@@ -22,7 +22,7 @@ public class Post {
     private String image;
     private LocalTime creationTime;
     private LocalDate creationDate;
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.ALL})
     private List<ReactionCounter> reactionCounters = new ArrayList<>();
 
     public Post() {

@@ -29,6 +29,12 @@
         <span th:text="${post.getContent()}"/>
       </div>
       <div>
+        <span th:text="${post.getReactionsCounters().get(0).getCount()}"/>
+        <form th:action="@{/react}" method="POST">
+            <input type="hidden" name="postId" th:value="${post.getId()}">
+            <input type="hidden" name="reactionId" value="1">
+            <button type="submit">React</button>
+        </form>
       </div>
     </div>
   </div>
