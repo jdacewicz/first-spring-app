@@ -27,7 +27,7 @@ public class PostService {
     public void createPost(Post post) {
         List<Reaction> reactions = reactionRepository.findAll();
 
-        post.setReactionsCounters(reactions.stream()
+        post.setReactionCounters(reactions.stream()
                 .map(r -> new ReactionCounter(r))
                 .toList());
         postRepository.save(post);

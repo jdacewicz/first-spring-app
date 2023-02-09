@@ -6,7 +6,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Entity
 @Table(name = "posts")
@@ -20,14 +19,15 @@ public class Post {
     private User postCreator;
     private String content;
     private String image;
-    private LocalTime creationTime;
-    private LocalDate creationDate;
+    private LocalTime creationTime = LocalTime.now();
+    private LocalDate creationDate = LocalDate.now();
     @OneToMany(cascade = {CascadeType.ALL})
     private List<ReactionCounter> reactionCounters = new ArrayList<>();
 
+    @OneToMany(cascade = {CascadeType.ALL})
+    private List<Comment> comments = new ArrayList<>();
+
     public Post() {
-        this.creationTime = LocalTime.now();
-        this.creationDate = LocalDate.now();
     }
 
     public long getId() {
@@ -54,11 +54,11 @@ public class Post {
         this.image = postImage;
     }
 
-    public List<ReactionCounter> getReactionsCounters() {
+    public List<ReactionCounter> getReactionCounters() {
         return reactionCounters;
     }
 
-    public void setReactionsCounters(List<ReactionCounter> postReactionCounters) {
+    public void setReactionCounters(List<ReactionCounter> postReactionCounters) {
         this.reactionCounters = postReactionCounters;
     }
 
@@ -84,5 +84,13 @@ public class Post {
 
     public void setPostCreator(User postCreator) {
         this.postCreator = postCreator;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 }
