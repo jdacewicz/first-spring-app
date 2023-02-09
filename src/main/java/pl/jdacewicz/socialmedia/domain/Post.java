@@ -30,21 +30,6 @@ public class Post {
         this.creationDate = LocalDate.now();
     }
 
-    public void react(Reaction reaction) {
-        Optional<ReactionCounter> reactionCounter = reactionCounters.stream()
-                .filter(c -> c.getReaction() == reaction)
-                .findFirst();
-
-        if (reactionCounter.isPresent()) {
-            ReactionCounter rC = reactionCounter.get();
-            rC.adjustCount(1);
-        } else {
-            ReactionCounter newReactionCounter = new ReactionCounter();
-            newReactionCounter.setReaction(reaction);
-            reactionCounters.add(newReactionCounter);
-        }
-    }
-
     public long getId() {
         return id;
     }

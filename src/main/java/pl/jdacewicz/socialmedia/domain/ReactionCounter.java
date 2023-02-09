@@ -12,13 +12,17 @@ public class ReactionCounter {
     private long id;
     @OneToOne
     private Reaction reaction;
-    private int count = 1;
+    private int count = 0;
 
     public ReactionCounter() {
     }
 
     public ReactionCounter(long id, Reaction reaction) {
         this.id = id;
+        this.reaction = reaction;
+    }
+
+    public ReactionCounter(Reaction reaction) {
         this.reaction = reaction;
     }
 

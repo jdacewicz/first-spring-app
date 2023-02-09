@@ -1,14 +1,10 @@
 package pl.jdacewicz.socialmedia.controller;
 
-import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import pl.jdacewicz.socialmedia.domain.Post;
-import pl.jdacewicz.socialmedia.domain.Reaction;
-import pl.jdacewicz.socialmedia.service.PostService;
-import pl.jdacewicz.socialmedia.service.ReactionService;
+import pl.jdacewicz.socialmedia.domain.ReactionCounter;
+import pl.jdacewicz.socialmedia.service.ReactionCounterService;
 
 import java.util.Map;
 import java.util.Optional;
@@ -16,26 +12,22 @@ import java.util.Optional;
 @Controller
 public class ReactionController {
 
-    private PostService postService;
-    private ReactionService reactionService;
+    private ReactionCounterService reactionCounterService;
 
     @Autowired
-    public ReactionController(PostService postService, ReactionService reactionService) {
-        this.postService = postService;
-        this.reactionService = reactionService;
+    public ReactionController(ReactionCounterService reactionCounterService) {
+        this.reactionCounterService = reactionCounterService;
     }
 
     @PostMapping("/react")
-    public String reactToPost(@RequestParam Map<String, String> body) {
-        Optional<Post> searchedPost = postService.getPost(Long.parseLong(body.get("postId")));
-        Optional<Reaction> searchedReaction = reactionService.getReaction(Long.parseLong(body.get("reactionId")));
+    public String react(@RequestParam Map<String, String> body) {
+        long id = Long.parseLong(body.get("reactionCounterId"));
+        Optional<ReactionCounter> foundReactionCounter = reactionCounterService.getReactionCounter(id);
 
-        if (searchedPost.isPresent() && searchedReaction.isPresent()) {
-            Post post = searchedPost.get();
-            Reaction reaction = searchedReaction.get();
-
-            post.react(reaction);
-            postService.updatePost(post);
+        if (foundReactionCounter.isPresent()) {
+            ReactionCounter counter = foundReactionCounter.get();
+            counter.adjustCount(1);
+            reactionCounterService.updateReactionCounter(counter);
         }
         return "redirect:/";
     }
