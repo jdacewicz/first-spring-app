@@ -20,6 +20,11 @@
       <span th:text="${post.getContent()}"/>
     </div>
     <div>
+      <form th:action="@{/comment}" method="POST">
+        <input type="hidden" name="postId" th:value="${post.getId()}">
+        <input type="text" name="commentContent"/>
+        <button type="submit">Public</button>
+      </form>
     </div>
   </div>
 </div>

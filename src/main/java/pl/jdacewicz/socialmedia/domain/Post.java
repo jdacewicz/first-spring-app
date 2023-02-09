@@ -30,6 +30,10 @@ public class Post {
     public Post() {
     }
 
+    public void addComment(Comment comment) {
+        comments.add(comment);
+    }
+
     public long getId() {
         return id;
     }
