@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+  <title>New Post</title>
+  <link rel="stylesheet" th:href="@{/css/main.css}">
+</head>
+<body>
+<form th:action="@{/admin/new-reaction}" method="POST" class="login-form">
+  <div>
+    <h1>New reaction</h1>
+    <label>Name: </label>
+    <input type="text" name="name" required/>
+  </div>
+  <div>
+    <label>Image: </label>
+    <input type="text" name="image" />
+  </div>
+  <div>
+    <button type="submit">Create</button>
+  </div>
+  </div>
+</form>
+</body>
+</html>

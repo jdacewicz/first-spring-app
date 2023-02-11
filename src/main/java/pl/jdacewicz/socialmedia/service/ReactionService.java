@@ -20,4 +20,8 @@ public class ReactionService {
     public Optional<Reaction> getReaction(Long id) {
         return reactionRepository.findById(id);
     }
+
+    public void createReaction(Reaction reaction) {
+        reactionRepository.saveAndFlush(reaction);
+    }
 }
