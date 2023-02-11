@@ -3,41 +3,57 @@
 <head>
   <meta charset="UTF-8">
   <title>SocialMedia</title>
-  <link rel="stylesheet" th:href="@{/css/main.css}">
+  <link rel="stylesheet" th:href="@{/webjars/tailwindcss/2.1.2/dist/tailwind.min.css}">
 </head>
-<body>
-  <h3>Hello!</h3>
-  <a th:href="'/user/' + ${user.getId()}">
-    <span th:text="${user.getUserInformation().getFirstname()} + ' ' + ${user.getUserInformation().getLastname()}"/>
-  </a>
-  <form name="logoutForm" th:action="@{/logout}" method="post">
-    <input type="submit" value="Sign Out" />
-  </form>
-  <h3><a href="/new-post">New post</a></h3>
-
+<body class="bg-gray-100">
+  <div class="max-w-md mb-5 bg-white p-4 grid grid-flow-row auto-rows-max border-r-2 min-h-screen">
+      <div>
+        <a th:href="'/user/' + ${user.getId()}">
+          <span th:text="${user.getUserInformation().getFirstname()} + ' ' + ${user.getUserInformation().getLastname()}"/>
+        </a>
+      </div>
+        <form name="logoutForm" th:action="@{/logout}" method="post">
+          <input type="submit" value="Sign Out" />
+        </form>
+      <div>
+        <a href="/new-post">
+          New post
+        </a>
+      </div>
+      <div>
+        <a href="/admin/new-reaction">
+          New reaction
+        </a>
+      </div>
+    </div>
+  </div>
   <div>
-    <div class="post" th:each="post : ${posts}">
-      <div class="first-and-lastname">
-        <span th:text="${post.getPostCreator().getUserInformation().getFirstname()}"/>
-        <span th:text="${post.getPostCreator().getUserInformation().getLastname()}"/>
+    <div class="max-w-md mx-auto rounded-xl mb-5 bg-white p-4 grid grid-flow-row auto-rows-max border-2" th:each="post : ${posts}">
+      <div class="">
+        <div class="float-left">
+          <span th:text="${post.getPostCreator().getUserInformation().getFirstname()} + ' ' + ${post.getPostCreator().getUserInformation().getLastname()}"/>
+        </div>
+        <div class="float-right">
+          <span th:text="${post.getCreationTime()} + ' ' + ${post.getCreationDate()}"/>
+        </div>
       </div>
-      <div class="creation-time-and-data">
-        <span th:text="${post.getCreationTime()}"/>
-        <span th:text="${post.getCreationDate()}"/>
-      </div>
-      <div class="content">
+      <div class="mt-2">
         <span th:text="${post.getContent()}"/>
       </div>
-      <div th:each="reactionCounter : ${post.getReactionCounters()}">
-        <span th:if="${reactionCounter.getCount() > 0}" th:text="${reactionCounter.getCount()}"/>
-        <form th:action="@{/react}" method="POST">
+      <div class="grid grid-flow-col grid-cols-3 mt-2">
+        <div th:each="reactionCounter : ${post.getReactionCounters()}">
+          <form th:action="@{/react}" method="POST">
+            <span th:if="${reactionCounter.getCount() > 0}" th:text="${reactionCounter.getCount()}"/>
             <input type="hidden" name="reactionCounterId" th:value="${reactionCounter.getId()}">
             <button type="submit">React</button>
-        </form>
+          </form>
+        </div>
       </div>
-      <div class="comments" th:each="comment : ${post.getComments()}">
-        <span th:text="${comment.getCreator().getUserInformation().getFirstname()} + ' ' + ${comment.getCreator().getUserInformation().getLastname()}"/>
-        <span th:text="${comment.getContent()}"/>
+      <div class="border-t-2 mt-2" th:if="${!post.getComments().isEmpty()}">
+        <div class="mt-2" th:each="comment : ${post.getComments()}">
+          <span th:text="${comment.getCreator().getUserInformation().getFirstname()} + ' ' + ${comment.getCreator().getUserInformation().getLastname()}"/>
+          <span th:text="${comment.getContent()}"/>
+        </div>
       </div>
     </div>
   </div>
