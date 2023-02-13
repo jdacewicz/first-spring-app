@@ -1,4 +1,4 @@
-package pl.jdacewicz.socialmedia.domain.repo;
+package pl.jdacewicz.socialmedia.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import pl.jdacewicz.socialmedia.domain.Comment;

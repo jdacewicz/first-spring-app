@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import pl.jdacewicz.socialmedia.domain.User;
-import pl.jdacewicz.socialmedia.domain.repo.UserRepository;
+import pl.jdacewicz.socialmedia.repository.UserRepository;
 import pl.jdacewicz.socialmedia.service.principal.DBUserPrincipal;
 
 import java.util.Optional;

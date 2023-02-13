@@ -3,7 +3,7 @@ package pl.jdacewicz.socialmedia.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.jdacewicz.socialmedia.domain.ReactionCounter;
-import pl.jdacewicz.socialmedia.domain.repo.ReactionCounterRepository;
+import pl.jdacewicz.socialmedia.repository.ReactionCounterRepository;
 
 import java.util.Optional;
 

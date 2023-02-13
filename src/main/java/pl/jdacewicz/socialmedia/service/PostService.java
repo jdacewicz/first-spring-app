@@ -6,8 +6,8 @@ import pl.jdacewicz.socialmedia.domain.Post;
 import pl.jdacewicz.socialmedia.domain.Reaction;
 import pl.jdacewicz.socialmedia.domain.ReactionCounter;
 import pl.jdacewicz.socialmedia.domain.User;
-import pl.jdacewicz.socialmedia.domain.repo.PostRepository;
-import pl.jdacewicz.socialmedia.domain.repo.ReactionRepository;
+import pl.jdacewicz.socialmedia.repository.PostRepository;
+import pl.jdacewicz.socialmedia.repository.ReactionRepository;
 
 import java.util.List;
 import java.util.Optional;
