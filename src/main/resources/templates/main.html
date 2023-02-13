@@ -10,7 +10,7 @@
       <div class="flex justify-center">
         <span class="m-auto">LOGO</span>
       </div>
-      <div class="grid grid-flow-row auto-rows-max shadow rounded-xl bg-gray-100">
+      <div class="grid grid-flow-row auto-rows-max shadow rounded-xl bg-gray-100 p-4">
         <a th:href="'/user/' + ${user.getId()}">
           <span class="font-bold" th:text="${user.getUserInformation().getFirstname()} + ' ' + ${user.getUserInformation().getLastname()}"/>
         </a>
@@ -18,13 +18,13 @@
           New post
         </a>
       </div>
-      <div class="grid grid-flow-row auto-rows-max shadow rounded-xl bg-gray-100">
+      <div class="grid grid-flow-row auto-rows-max shadow rounded-xl bg-gray-100 p-4">
         <span>Admin panel</span>
         <a href="/admin/new-reaction">
           New reaction
         </a>
       </div>
-    <div class="shadow rounded-xl bg-gray-100">
+    <div class="shadow rounded-xl bg-gray-100 p-4">
       SUPPORT
     </div>
     <div class="flex justify-center">
@@ -46,7 +46,7 @@
           <span class="font-bold" th:text="${post.getPostCreator().getUserInformation().getFirstname()} + ' ' + ${post.getPostCreator().getUserInformation().getLastname()}"/>
         </div>
         <div class="float-right">
-          <span th:text="${post.getCreationTime()} + ' ' + ${post.getCreationDate()}"/>
+          <span th:text="${post.getElapsedCreationTimeMessage() + ' ago.'}"/>
         </div>
       </div>
       <div class="mt-2">

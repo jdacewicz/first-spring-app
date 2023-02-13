@@ -1,8 +1,10 @@
 package pl.jdacewicz.socialmedia.domain;
 
 import jakarta.persistence.*;
+import pl.jdacewicz.socialmedia.util.TimeUtils;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +34,12 @@ public class Post {
 
     public void addComment(Comment comment) {
         comments.add(comment);
+    }
+
+    public String getElapsedCreationTimeMessage() {
+        LocalDateTime creationDateTime = LocalDateTime.of(creationDate, creationTime);
+
+        return TimeUtils.getElapsedTimeMessage(creationDateTime, LocalDateTime.now());
     }
 
     public long getId() {
