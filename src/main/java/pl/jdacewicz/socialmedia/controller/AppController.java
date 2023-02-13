@@ -27,7 +27,6 @@ public class AppController {
 
     @GetMapping("/")
     public String showMainPage(Model model) {
-        //TODO Consider putting it in other class.
         String loggedInUsername = SecurityContextHolder.getContext().getAuthentication().getName();
         Optional<User> loggedInUser = userDetailsService.getUser(loggedInUsername);
 

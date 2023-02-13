@@ -3,8 +3,8 @@ package pl.jdacewicz.socialmedia.domain;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "reactionsCounts")
-public class ReactionCount {
+@Table(name = "reactionsCounters")
+public class ReactionCounter {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -12,9 +12,28 @@ public class ReactionCount {
     private long id;
     @OneToOne
     private Reaction reaction;
-    private int count;
+    private int count = 0;
 
-    public ReactionCount() {
+    public ReactionCounter() {
+    }
+
+    public ReactionCounter(long id, Reaction reaction) {
+        this.id = id;
+        this.reaction = reaction;
+    }
+
+    public ReactionCounter(Reaction reaction) {
+        this.reaction = reaction;
+    }
+
+    public void adjustCount(int value) {
+        count += value;
+    }
+
+    public void subtractCount(int value) {
+        if (count >= 0) {
+            count -= value;
+        }
     }
 
     public long getId() {

@@ -3,32 +3,69 @@
 <head>
   <meta charset="UTF-8">
   <title>SocialMedia</title>
-  <link rel="stylesheet" th:href="@{/css/main.css}">
+  <link rel="stylesheet" th:href="@{/webjars/tailwindcss/2.1.2/dist/tailwind.min.css}">
 </head>
-<body>
-  <h3>Hello!</h3>
-  <a th:href="'/user/' + ${user.getId()}">
-    <span th:text="${user.getUserInformation().getFirstname()} + ' ' + ${user.getUserInformation().getLastname()}"/>
-  </a>
-  <form name="logoutForm" th:action="@{/logout}" method="post">
-    <input type="submit" value="Sign Out" />
-  </form>
-  <h3><a href="/new-post">New post</a></h3>
-
-  <div>
-    <div class="post" th:each="post : ${posts}">
-      <div class="first-and-lastname">
-        <span th:text="${post.getPostCreator().getUserInformation().getFirstname()}"/>
-        <span th:text="${post.getPostCreator().getUserInformation().getLastname()}"/>
+<body class="bg-gray-100">
+  <div class="absolute max-w-md w-1/5 mb-5 bg-white p-5 shadow h-screen grid grid-flow-row gap-4 rounded-xl">
+      <div class="flex justify-center">
+        <span class="m-auto">LOGO</span>
       </div>
-      <div class="creation-time-and-data">
-        <span th:text="${post.getCreationTime()}"/>
-        <span th:text="${post.getCreationDate()}"/>
+      <div class="grid grid-flow-row auto-rows-max shadow rounded-xl bg-gray-100 p-4">
+        <a th:href="'/user/' + ${user.getId()}">
+          <span class="font-bold" th:text="${user.getUserInformation().getFirstname()} + ' ' + ${user.getUserInformation().getLastname()}"/>
+        </a>
+        <a  href="/new-post">
+          New post
+        </a>
       </div>
-      <div class="content">
+      <div class="grid grid-flow-row auto-rows-max shadow rounded-xl bg-gray-100 p-4">
+        <span>Admin panel</span>
+        <a href="/admin/new-reaction">
+          New reaction
+        </a>
+      </div>
+    <div class="shadow rounded-xl bg-gray-100 p-4">
+      SUPPORT
+    </div>
+    <div class="flex justify-center">
+      <form name="logoutForm" class="m-auto" th:action="@{/logout}" method="post">
+        <button type="submit" class="inline-block px-6 py-2.5 bg-purple-600 text-white font-medium text-xs leading-tight uppercase rounded-full
+        shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800
+        active:shadow-lg transition duration-150 ease-in-out">Sign out</button>
+      </form>
+    </div>
+    <div class="flex justify-center p-4">
+      <span class="m-auto">FOOTER - PRIVACY - ADS - COOKIE - MORE - Jakub Dacewicz 2023</span>
+    </div>
+    </div>
+  </div>
+  <div class="pt-4">
+    <div class=" max-w-md mx-auto rounded-xl mb-4 bg-white p-4 grid grid-flow-row auto-rows-max shadow" th:each="post : ${posts}">
+      <div class="">
+        <div class="float-left">
+          <span class="font-bold" th:text="${post.getPostCreator().getUserInformation().getFirstname()} + ' ' + ${post.getPostCreator().getUserInformation().getLastname()}"/>
+        </div>
+        <div class="float-right">
+          <span th:text="${post.getElapsedCreationTimeMessage() + ' ago.'}"/>
+        </div>
+      </div>
+      <div class="mt-2">
         <span th:text="${post.getContent()}"/>
       </div>
-      <div>
+      <div class="grid grid-flow-col grid-cols-3 mt-2">
+        <div th:each="reactionCounter : ${post.getReactionCounters()}">
+          <form th:action="@{/react}" method="POST">
+            <span th:if="${reactionCounter.getCount() > 0}" th:text="${reactionCounter.getCount()}"/>
+            <input type="hidden" name="reactionCounterId" th:value="${reactionCounter.getId()}">
+            <button type="submit">React</button>
+          </form>
+        </div>
+      </div>
+      <div class="border-t-2 mt-2" th:if="${!post.getComments().isEmpty()}">
+        <div class="mt-2" th:each="comment : ${post.getComments()}">
+          <span th:text="${comment.getCreator().getUserInformation().getFirstname()} + ' ' + ${comment.getCreator().getUserInformation().getLastname()}"/>
+          <span th:text="${comment.getContent()}"/>
+        </div>
       </div>
     </div>
   </div>

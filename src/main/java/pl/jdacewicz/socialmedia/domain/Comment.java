@@ -2,8 +2,8 @@ package pl.jdacewicz.socialmedia.domain;
 
 import jakarta.persistence.*;
 
-import java.sql.Date;
-import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Entity
@@ -14,15 +14,14 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "commentId")
     private long id;
-
-    //TODO Set here user who has created this comment.
-
+    @OneToOne
+    private User creator;
     private String content;
     private String image;
-    private Timestamp creationTime;
-    private Date creationDate;
+    private LocalTime creationTime = LocalTime.now();
+    private LocalDate creationDate = LocalDate.now();
     @OneToMany
-    private List<ReactionCount> reactionsCounters;
+    private List<ReactionCounter> reactionsCounters;
 
     public Comment() {
     }
@@ -51,27 +50,35 @@ public class Comment {
         this.image = image;
     }
 
-    public Timestamp getCreationTime() {
+    public LocalTime getCreationTime() {
         return creationTime;
     }
 
-    public void setCreationTime(Timestamp creationTime) {
+    public void setCreationTime(LocalTime creationTime) {
         this.creationTime = creationTime;
     }
 
-    public Date getCreationDate() {
+    public LocalDate getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(Date creationDate) {
+    public void setCreationDate(LocalDate creationDate) {
         this.creationDate = creationDate;
     }
 
-    public List<ReactionCount> getReactionsCounters() {
+    public List<ReactionCounter> getReactionsCounters() {
         return reactionsCounters;
     }
 
-    public void setReactionsCounters(List<ReactionCount> reactionsCounters) {
+    public void setReactionsCounters(List<ReactionCounter> reactionsCounters) {
         this.reactionsCounters = reactionsCounters;
+    }
+
+    public User getCreator() {
+        return creator;
+    }
+
+    public void setCreator(User creator) {
+        this.creator = creator;
     }
 }

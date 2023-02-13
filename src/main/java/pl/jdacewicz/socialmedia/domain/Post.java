@@ -1,9 +1,12 @@
 package pl.jdacewicz.socialmedia.domain;
 
 import jakarta.persistence.*;
+import pl.jdacewicz.socialmedia.util.TimeUtils;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -18,14 +21,25 @@ public class Post {
     private User postCreator;
     private String content;
     private String image;
-    private LocalTime creationTime;
-    private LocalDate creationDate;
-    @OneToMany
-    private List<ReactionCount> reactionsCounts;
+    private LocalTime creationTime = LocalTime.now();
+    private LocalDate creationDate = LocalDate.now();
+    @OneToMany(cascade = {CascadeType.ALL})
+    private List<ReactionCounter> reactionCounters = new ArrayList<>();
+
+    @OneToMany(cascade = {CascadeType.ALL})
+    private List<Comment> comments = new ArrayList<>();
 
     public Post() {
-        this.creationTime = LocalTime.now();
-        this.creationDate = LocalDate.now();
+    }
+
+    public void addComment(Comment comment) {
+        comments.add(comment);
+    }
+
+    public String getElapsedCreationTimeMessage() {
+        LocalDateTime creationDateTime = LocalDateTime.of(creationDate, creationTime);
+
+        return TimeUtils.getElapsedTimeMessage(creationDateTime, LocalDateTime.now());
     }
 
     public long getId() {
@@ -52,12 +66,12 @@ public class Post {
         this.image = postImage;
     }
 
-    public List<ReactionCount> getReactionsCounts() {
-        return reactionsCounts;
+    public List<ReactionCounter> getReactionCounters() {
+        return reactionCounters;
     }
 
-    public void setReactionsCounts(List<ReactionCount> postReactionsCount) {
-        this.reactionsCounts = postReactionsCount;
+    public void setReactionCounters(List<ReactionCounter> postReactionCounters) {
+        this.reactionCounters = postReactionCounters;
     }
 
     public LocalTime getCreationTime() {
@@ -82,5 +96,13 @@ public class Post {
 
     public void setPostCreator(User postCreator) {
         this.postCreator = postCreator;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 }
