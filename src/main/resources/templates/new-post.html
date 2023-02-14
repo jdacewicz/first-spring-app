@@ -5,7 +5,7 @@
   <link rel="stylesheet" th:href="@{/css/main.css}">
 </head>
 <body>
-<form th:action="@{/new-post}" method="POST" class="login-form">
+<form th:action="@{/new-post}" enctype="multipart/form-data" method="POST" class="login-form">
   <div>
     <h1>New post</h1>
     <label>Content: </label>
@@ -13,7 +13,7 @@
   </div>
   <div>
     <label>Image: </label>
-    <input type="text" name="image" />
+    <input type="file" name="image" />
   </div>
   <div>
     <button type="submit">Public</button>

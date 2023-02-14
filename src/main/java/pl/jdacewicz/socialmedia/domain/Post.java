@@ -20,7 +20,7 @@ public class Post {
     @OneToOne
     private User postCreator;
     private String content;
-    private String image;
+    private String image = "";
     private LocalTime creationTime = LocalTime.now();
     private LocalDate creationDate = LocalDate.now();
     @OneToMany(cascade = {CascadeType.ALL})
