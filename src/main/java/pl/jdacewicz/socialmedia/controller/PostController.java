@@ -1,6 +1,8 @@
 package pl.jdacewicz.socialmedia.controller;
 
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,9 +14,11 @@ import org.springframework.web.multipart.MultipartFile;
 import pl.jdacewicz.socialmedia.domain.Post;
 import pl.jdacewicz.socialmedia.domain.User;
 import pl.jdacewicz.socialmedia.service.DBUserDetailsService;
-import pl.jdacewicz.socialmedia.service.FileService;
+import pl.jdacewicz.socialmedia.service.FileStorageServiceImpl;
 import pl.jdacewicz.socialmedia.service.PostService;
+import pl.jdacewicz.socialmedia.util.FileUtils;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Map;
@@ -25,13 +29,13 @@ public class PostController {
 
     private PostService postService;
     private DBUserDetailsService detailsService;
-    private FileService fileService;
+    private FileStorageServiceImpl fileStorageServiceImpl;
 
     @Autowired
-    public PostController(PostService postService, DBUserDetailsService detailsService, FileService fileService) {
+    public PostController(PostService postService, DBUserDetailsService detailsService, FileStorageServiceImpl fileStorageServiceImpl) {
         this.postService = postService;
         this.detailsService = detailsService;
-        this.fileService = fileService;
+        this.fileStorageServiceImpl = fileStorageServiceImpl;
     }
 
     @GetMapping("/new-post")
@@ -40,29 +44,21 @@ public class PostController {
     }
 
     @PostMapping("/new-post")
-    public String createPost(@RequestParam Map<String, String> body, @RequestParam("image") MultipartFile file) {
+    public String createPost(@RequestParam Map<String, String> body, @RequestParam("image") MultipartFile file) throws IOException {
         String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
         Optional<User> userLoggedIn = detailsService.getUser(currentUser);
 
         Post post = new Post();
         post.setContent(body.get("content"));
         post.setPostCreator(userLoggedIn.get());
-        if (file.isEmpty()) {
-            postService.createPost(post);
-        } else {
-            try {
-                Path filePath = fileService.uploadFile(file);
-                post.setImage(filePath.toString());
+        if (!file.isEmpty()) {
 
-                postService.createPost(post);
-
-            } catch (IOException e) {
-                //TODO Failed to upload file message to user.
-                System.out.println(e);
-
-                return "new-post";
-            }
+            String newFileName = FileUtils.generateUniqueName();
+            fileStorageServiceImpl.save(file, newFileName);
+            post.setImage(newFileName);
         }
+        postService.createPost(post);
+
         return "redirect:/";
     }
 
