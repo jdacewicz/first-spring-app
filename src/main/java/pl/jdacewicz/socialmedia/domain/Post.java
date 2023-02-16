@@ -20,7 +20,7 @@ public class Post {
     @OneToOne
     private User postCreator;
     private String content;
-    private String image = "";
+    private String image;
     private LocalTime creationTime = LocalTime.now();
     private LocalDate creationDate = LocalDate.now();
     @OneToMany(cascade = {CascadeType.ALL})
@@ -40,6 +40,12 @@ public class Post {
         LocalDateTime creationDateTime = LocalDateTime.of(creationDate, creationTime);
 
         return TimeUtils.getElapsedTimeMessage(creationDateTime, LocalDateTime.now());
+    }
+
+    public String getImagePath() {
+        if (image == null) return null;
+
+        return "/user-photos/" + postCreator.getId() + "/" + image;
     }
 
     public long getId() {

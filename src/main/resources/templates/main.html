@@ -52,8 +52,8 @@
       <div class="mt-2">
         <span th:text="${post.getContent()}"/>
       </div>
-      <div class="mt-2" th:if="${!post.getImage().isEmpty()}">
-        <img th:src="${post.getImage()}"/>
+      <div class="mt-2" th:if="${post.getImage()} != null">
+        <img th:src="@{${post.getImagePath()}}"/>
       </div>
       <div class="grid grid-flow-col grid-cols-3 mt-2">
         <div th:each="reactionCounter : ${post.getReactionCounters()}">
