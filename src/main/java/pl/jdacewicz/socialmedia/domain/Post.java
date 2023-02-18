@@ -45,7 +45,7 @@ public class Post {
     public String getImagePath() {
         if (image == null) return null;
 
-        return "/user-photos/" + postCreator.getId() + "/" + image;
+        return "/uploads/user-photos/" + postCreator.getId() + "/" + image;
     }
 
     public long getId() {

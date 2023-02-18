@@ -5,7 +5,7 @@
   <link rel="stylesheet" th:href="@{/css/main.css}">
 </head>
 <body>
-<form th:action="@{/admin/new-reaction}" method="POST" class="login-form">
+<form th:action="@{/admin/new-reaction}" enctype="multipart/form-data" method="POST" class="login-form">
   <div>
     <h1>New reaction</h1>
     <label>Name: </label>
@@ -13,7 +13,7 @@
   </div>
   <div>
     <label>Image: </label>
-    <input type="text" name="image" />
+    <input type="file" name="image" />
   </div>
   <div>
     <button type="submit">Create</button>

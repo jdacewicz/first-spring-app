@@ -49,7 +49,7 @@ public class PostController {
             String fileName = StringUtils.cleanPath(file.getOriginalFilename());
             post.setImage(fileName);
 
-            String uploadDir = "user-photos/" + userLoggedIn.get().getId();
+            String uploadDir = "uploads/user-photos/" + userLoggedIn.get().getId();
             FileUtils.saveFile(uploadDir, fileName, file);
         }
         postService.createPost(post);

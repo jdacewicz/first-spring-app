@@ -60,7 +60,9 @@
           <form th:action="@{/react}" method="POST">
             <span th:if="${reactionCounter.getCount() > 0}" th:text="${reactionCounter.getCount()}"/>
             <input type="hidden" name="reactionCounterId" th:value="${reactionCounter.getId()}">
-            <button type="submit">React</button>
+            <button type="submit">
+              <img class="h-1/4 w-1/4" th:src="@{${reactionCounter.getReaction().getImagePath()}}"/>
+            </button>
           </form>
         </div>
       </div>
