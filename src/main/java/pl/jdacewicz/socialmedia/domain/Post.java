@@ -24,6 +24,7 @@ public class Post {
     private LocalTime creationTime = LocalTime.now();
     private LocalDate creationDate = LocalDate.now();
     @OneToMany(cascade = {CascadeType.ALL})
+    @OrderBy("id ASC")
     private List<ReactionCounter> reactionCounters = new ArrayList<>();
 
     @OneToMany(cascade = {CascadeType.ALL})

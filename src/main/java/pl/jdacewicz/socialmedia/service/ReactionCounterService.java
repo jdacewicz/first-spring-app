@@ -22,6 +22,6 @@ public class ReactionCounterService {
     }
 
     public void updateReactionCounter(ReactionCounter reactionCounter) {
-        reactionCounterRepository.saveAndFlush(reactionCounter);
+        reactionCounterRepository.save(reactionCounter);
     }
 }

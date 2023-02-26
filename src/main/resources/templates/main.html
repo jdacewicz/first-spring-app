@@ -55,13 +55,13 @@
       <div class="mt-2" th:if="${post.getImage()} != null">
         <img th:src="@{${post.getImagePath()}}"/>
       </div>
-      <div class="grid grid-flow-col grid-cols-3 mt-2">
+      <div class="grid grid-flow-col grid-cols-6 mt-2">
         <div th:each="reactionCounter : ${post.getReactionCounters()}">
           <form th:action="@{/react}" method="POST">
             <span th:if="${reactionCounter.getCount() > 0}" th:text="${reactionCounter.getCount()}"/>
             <input type="hidden" name="reactionCounterId" th:value="${reactionCounter.getId()}">
-            <button type="submit">
-              <img class="h-1/4 w-1/4" th:src="@{${reactionCounter.getReaction().getImagePath()}}"/>
+            <button class="w-9/12" type="submit">
+              <img th:src="@{${reactionCounter.getReaction().getImagePath()}}"/>
             </button>
           </form>
         </div>

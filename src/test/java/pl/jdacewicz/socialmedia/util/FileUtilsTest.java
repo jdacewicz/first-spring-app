@@ -26,7 +26,6 @@ class FileUtilsTest {
         assertTrue(extensionNotIncluded);
     }
 
-    //GeneratedFileNameLengthEquals8
     @Test
     void ProperGeneratedFileNameLengthWhenFileWithExtensionProvided() {
         String fileName = "originalFileName.png";
