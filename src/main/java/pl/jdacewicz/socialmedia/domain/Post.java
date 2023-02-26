@@ -24,6 +24,7 @@ public class Post {
     private LocalTime creationTime = LocalTime.now();
     private LocalDate creationDate = LocalDate.now();
     @OneToMany(cascade = {CascadeType.ALL})
+    @OrderBy("id ASC")
     private List<ReactionCounter> reactionCounters = new ArrayList<>();
 
     @OneToMany(cascade = {CascadeType.ALL})
@@ -40,6 +41,12 @@ public class Post {
         LocalDateTime creationDateTime = LocalDateTime.of(creationDate, creationTime);
 
         return TimeUtils.getElapsedTimeMessage(creationDateTime, LocalDateTime.now());
+    }
+
+    public String getImagePath() {
+        if (image == null) return null;
+
+        return "/uploads/user-photos/" + postCreator.getId() + "/" + image;
     }
 
     public long getId() {

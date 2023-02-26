@@ -4,15 +4,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import pl.jdacewicz.socialmedia.domain.Post;
 import pl.jdacewicz.socialmedia.domain.User;
 import pl.jdacewicz.socialmedia.service.DBUserDetailsService;
 import pl.jdacewicz.socialmedia.service.PostService;
+import pl.jdacewicz.socialmedia.util.FileUtils;
 
+import java.io.IOException;
 import java.util.Map;
 import java.util.Optional;
 
@@ -34,16 +38,22 @@ public class PostController {
     }
 
     @PostMapping("/new-post")
-    public String createPost(@RequestParam Map<String, String> body) {
+    public String createPost(@RequestParam Map<String, String> body, @RequestParam("image") MultipartFile file) throws IOException {
         String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
         Optional<User> userLoggedIn = detailsService.getUser(currentUser);
 
-        //TODO Validation
         Post post = new Post();
         post.setContent(body.get("content"));
         post.setPostCreator(userLoggedIn.get());
+        if (!file.isEmpty()) {
+            String fileName = FileUtils.generateUniqueName(file.getOriginalFilename());
+            post.setImage(fileName);
 
+            String uploadDir = "uploads/user-photos/" + userLoggedIn.get().getId();
+            FileUtils.saveFile(uploadDir, fileName, file);
+        }
         postService.createPost(post);
+
         return "redirect:/";
     }
 

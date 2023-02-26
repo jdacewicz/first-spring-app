@@ -22,6 +22,12 @@ public class Reaction {
         this.image = image;
     }
 
+    public String getImagePath() {
+        if (image == null) return null;
+
+        return "/uploads/reactions/" + image;
+    }
+
     public int getId() {
         return id;
     }

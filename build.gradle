@@ -17,6 +17,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.apache.commons:commons-lang3:3.0'
     runtimeOnly 'org.springframework.boot:spring-boot-devtools'
     implementation 'org.webjars.npm:tailwindcss:2.1.2'
     runtimeOnly 'org.postgresql:postgresql'

@@ -4,7 +4,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,7 +18,7 @@ class TimeUtilsTest {
     }
 
     @Test
-    void ReturnsProperStringIf0MinutesDifferenceBetweenDateTimesGiven() {
+    void ProperElapsedTimeStringIf0MinutesDifferenceBetweenDateTimesGiven() {
         currentDateTime = creationDateTime;
 
         String message = TimeUtils.getElapsedTimeMessage(creationDateTime, currentDateTime);
@@ -27,7 +26,7 @@ class TimeUtilsTest {
         assertEquals("0 minutes" ,message);
     }
     @Test
-    void ReturnsProperStringIf1MinuteDifferenceBetweenDateTimesGiven() {
+    void ProperElapsedTimeStringIf1MinuteDifferenceBetweenDateTimesGiven() {
         currentDateTime = creationDateTime.plusMinutes(1);
 
         String message = TimeUtils.getElapsedTimeMessage(creationDateTime, currentDateTime);
@@ -36,7 +35,7 @@ class TimeUtilsTest {
     }
 
     @Test
-    void ReturnsProperStringIf1HourDifferenceBetweenDateTimesGiven() {
+    void ProperElapsedTimeStringIf1HourDifferenceBetweenDateTimesGiven() {
         currentDateTime = creationDateTime.plusHours(1);
 
         String message = TimeUtils.getElapsedTimeMessage(creationDateTime, currentDateTime);
@@ -45,7 +44,7 @@ class TimeUtilsTest {
     }
 
     @Test
-    void ReturnsProperStringIf2HoursDifferenceBetweenDateTimesGiven() {
+    void ProperElapsedTimeStringIf2HoursDifferenceBetweenDateTimesGiven() {
         currentDateTime = creationDateTime.plusHours(2);
 
         String message = TimeUtils.getElapsedTimeMessage(creationDateTime, currentDateTime);
@@ -54,7 +53,7 @@ class TimeUtilsTest {
     }
 
     @Test
-    void ReturnsProperStringIf1DayDifferenceBetweenDateTimesGiven() {
+    void ProperElapsedTimeStringIf1DayDifferenceBetweenDateTimesGiven() {
         currentDateTime = creationDateTime.plusDays(1);
 
         String message = TimeUtils.getElapsedTimeMessage(creationDateTime, currentDateTime);
@@ -63,7 +62,7 @@ class TimeUtilsTest {
     }
 
     @Test
-    void ReturnsProperStringIf2DaysDifferenceBetweenDateTimesGiven() {
+    void ProperElapsedTimeStringIf2DaysDifferenceBetweenDateTimesGiven() {
         currentDateTime = creationDateTime.plusDays(2);
 
         String message = TimeUtils.getElapsedTimeMessage(creationDateTime, currentDateTime);
@@ -72,7 +71,7 @@ class TimeUtilsTest {
     }
 
     @Test
-    void ReturnsProperStringIf1MonthDifferenceBetweenDateTimesGiven() {
+    void ProperElapsedTimeStringIf1MonthDifferenceBetweenDateTimesGiven() {
         currentDateTime = creationDateTime.plusMonths(1);
 
         String message = TimeUtils.getElapsedTimeMessage(creationDateTime, currentDateTime);
@@ -80,7 +79,7 @@ class TimeUtilsTest {
         assertEquals("1 month" ,message);
     }
     @Test
-    void ReturnsProperStringIf2MonthsDifferenceBetweenDateTimesGiven() {
+    void ProperElapsedTimeStringIf2MonthsDifferenceBetweenDateTimesGiven() {
         currentDateTime = creationDateTime.plusMonths(2);
 
         String message = TimeUtils.getElapsedTimeMessage(creationDateTime, currentDateTime);
@@ -89,7 +88,7 @@ class TimeUtilsTest {
     }
 
     @Test
-    void ReturnsProperStringIf1YearDifferenceBetweenDateTimesGiven() {
+    void ProperElapsedTimeStringIf1YearDifferenceBetweenDateTimesGiven() {
         currentDateTime = creationDateTime.plusYears(1);
 
         String message = TimeUtils.getElapsedTimeMessage(creationDateTime, currentDateTime);
@@ -98,7 +97,7 @@ class TimeUtilsTest {
     }
 
     @Test
-    void ReturnsProperStringIf2YearsDifferenceBetweenDateTimesGiven() {
+    void ProperElapsedTimeStringIf2YearsDifferenceBetweenDateTimesGiven() {
         currentDateTime = creationDateTime.plusYears(2);
 
         String message = TimeUtils.getElapsedTimeMessage(creationDateTime, currentDateTime);

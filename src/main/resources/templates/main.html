@@ -52,19 +52,34 @@
       <div class="mt-2">
         <span th:text="${post.getContent()}"/>
       </div>
-      <div class="grid grid-flow-col grid-cols-3 mt-2">
+      <div class="mt-2" th:if="${post.getImage()} != null">
+        <img th:src="@{${post.getImagePath()}}"/>
+      </div>
+      <div class="grid grid-flow-col grid-cols-6 mt-2">
         <div th:each="reactionCounter : ${post.getReactionCounters()}">
           <form th:action="@{/react}" method="POST">
             <span th:if="${reactionCounter.getCount() > 0}" th:text="${reactionCounter.getCount()}"/>
             <input type="hidden" name="reactionCounterId" th:value="${reactionCounter.getId()}">
-            <button type="submit">React</button>
+            <button class="w-9/12" type="submit">
+              <img th:src="@{${reactionCounter.getReaction().getImagePath()}}"/>
+            </button>
           </form>
         </div>
       </div>
-      <div class="border-t-2 mt-2" th:if="${!post.getComments().isEmpty()}">
+      <div class="border-t-2 mt-2">
         <div class="mt-2" th:each="comment : ${post.getComments()}">
           <span th:text="${comment.getCreator().getUserInformation().getFirstname()} + ' ' + ${comment.getCreator().getUserInformation().getLastname()}"/>
           <span th:text="${comment.getContent()}"/>
+        </div>
+        <div class="mt-2">
+          <form th:action="@{/comment}" method="POST">
+            <span th:text="${user.getUserInformation().getFirstname()} + ' ' + ${user.getUserInformation().getLastname()}"/>
+            <input type="hidden" name="postId" th:value="${post.getId()}">
+            <input class="w-6/12" type="text" name="commentContent"/>
+            <button class="w-1/12 inline-block px-0.5 py-0.5 bg-purple-600 text-white leading-tight uppercase rounded-full
+            shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800
+            active:shadow-lg transition duration-150 ease-in-out" type="submit">-></button>
+          </form>
         </div>
       </div>
     </div>
