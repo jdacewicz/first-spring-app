@@ -14,7 +14,9 @@ public class FileUtils {
 
     public static String generateUniqueName(String fileName) {
         int dotIndex = fileName.lastIndexOf('.');
-        String fileExtension = fileName.substring(dotIndex, fileName.length());
+
+        int startIndex = (dotIndex == -1) ? fileName.length() : dotIndex;
+        String fileExtension = fileName.substring(startIndex, fileName.length());
 
         return String.format("%s%s", RandomStringUtils.randomAlphanumeric(8), fileExtension);
     }
