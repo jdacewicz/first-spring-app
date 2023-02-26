@@ -1,33 +1,47 @@
 package pl.jdacewicz.socialmedia.util;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.File;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class FileUtilsTest {
 
-    String fileName = "originalFileName.png";
-    String generatedFileName = FileUtils.generateUniqueName(fileName);
-
     @Test
-    void GeneratedFileNameExtensionSameAsOriginalFile() {
-        int dotIndex = generatedFileName.lastIndexOf('.');
-        String extension = generatedFileName.substring(dotIndex, generatedFileName.length());
+    void ProperGeneratedFileNameExtensionWhenFileWithExtensionProvided() {
+        String fileName = "originalFileName.png";
+        String generatedFileName = FileUtils.generateUniqueName(fileName);
+
+        String extension = generatedFileName.substring(generatedFileName.length() - 4, generatedFileName.length());
 
         assertEquals(".png", extension);
     }
 
     @Test
-    void GeneratedFileNameLengthWithoutExtensionEquals8() {
-        int dotIndex = generatedFileName.lastIndexOf('.');
-        String nameWithoutExtension = generatedFileName.substring(0, dotIndex);
+    void ProperGeneratedFileNameExtensionWhenFileWithoutExtensionProvided() {
+        String fileName = "originalFileName";
+        String generatedFileName = FileUtils.generateUniqueName(fileName);
+
+        boolean extensionNotIncluded = (generatedFileName.lastIndexOf('.') == -1);
+
+        assertTrue(extensionNotIncluded);
+    }
+
+    //GeneratedFileNameLengthEquals8
+    @Test
+    void ProperGeneratedFileNameLengthWhenFileWithExtensionProvided() {
+        String fileName = "originalFileName.png";
+        String generatedFileName = FileUtils.generateUniqueName(fileName);
+
+        String nameWithoutExtension = generatedFileName.substring(0, generatedFileName.length() - 4);
 
         assertEquals(8, nameWithoutExtension.length());
+    }
+
+    @Test
+    void ProperGeneratedFileNameLengthWhenFileWithoutExtensionProvided() {
+        String fileName = "originalFileName";
+        String generatedFileName = FileUtils.generateUniqueName(fileName);
+
+        assertEquals(8, generatedFileName.length());
     }
 }
