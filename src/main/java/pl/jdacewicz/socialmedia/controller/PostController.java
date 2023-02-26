@@ -46,7 +46,7 @@ public class PostController {
         post.setContent(body.get("content"));
         post.setPostCreator(userLoggedIn.get());
         if (!file.isEmpty()) {
-            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+            String fileName = FileUtils.generateUniqueName(file.getOriginalFilename());
             post.setImage(fileName);
 
             String uploadDir = "uploads/user-photos/" + userLoggedIn.get().getId();

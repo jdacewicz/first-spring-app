@@ -47,7 +47,7 @@ public class ReactionController {
 
     @PostMapping("/admin/new-reaction")
     public String createReaction(@RequestParam Map<String, String> body, @RequestParam("image") MultipartFile file) throws IOException {
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        String fileName = FileUtils.generateUniqueName(file.getOriginalFilename());
 
         Reaction newReaction = new Reaction();
         newReaction.setName(body.get("name"));
