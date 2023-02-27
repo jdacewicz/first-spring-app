@@ -13,6 +13,8 @@ public class UserInformation {
     private long id;
     private String firstname;
     private String lastname;
+    private String profilePicture;
+    private String gender;
 
     public UserInformation() {
     }
@@ -39,5 +41,21 @@ public class UserInformation {
 
     public void setLastname(String lastname) {
         this.lastname = lastname;
+    }
+
+    public String getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(String profilePicture) {
+        this.profilePicture = profilePicture;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 }
