@@ -42,7 +42,7 @@ public class ReactionController {
 
         if (userLoggedIn.isPresent() && foundReactionCounter.isPresent()) {
             ReactionCounter counter = foundReactionCounter.get();
-            counter.adjustCount(1, userLoggedIn.get());
+            counter.changeCount(1, userLoggedIn.get());
 
             reactionCounterService.updateReactionCounter(counter);
         }

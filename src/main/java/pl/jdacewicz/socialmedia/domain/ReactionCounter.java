@@ -26,16 +26,13 @@ public class ReactionCounter {
         this.reaction = reaction;
     }
 
-    public void adjustCount(int value, User user) {
-        if (!usersReacted.contains(user)) {
+    public void changeCount(int value, User user) {
+        if (usersReacted.contains(user)) {
+            usersReacted.remove(user);
+            count -= value;
+        } else {
             usersReacted.add(user);
             count += value;
-        }
-    }
-
-    public void subtractCount(int value) {
-        if (count >= 0) {
-            count -= value;
         }
     }
 
