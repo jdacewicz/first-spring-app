@@ -2,6 +2,9 @@ package pl.jdacewicz.socialmedia.domain;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "reactionsCounters")
 public class ReactionCounter {
@@ -13,21 +16,21 @@ public class ReactionCounter {
     @OneToOne
     private Reaction reaction;
     private int count = 0;
+    @ManyToMany
+    private Set<User> usersReacted = new HashSet<>();
 
     public ReactionCounter() {
-    }
-
-    public ReactionCounter(long id, Reaction reaction) {
-        this.id = id;
-        this.reaction = reaction;
     }
 
     public ReactionCounter(Reaction reaction) {
         this.reaction = reaction;
     }
 
-    public void adjustCount(int value) {
-        count += value;
+    public void adjustCount(int value, User user) {
+        if (!usersReacted.contains(user)) {
+            usersReacted.add(user);
+            count += value;
+        }
     }
 
     public void subtractCount(int value) {
@@ -58,5 +61,13 @@ public class ReactionCounter {
 
     public void setCount(int reactionCount) {
         this.count = reactionCount;
+    }
+
+    public Set<User> getUsersReacted() {
+        return usersReacted;
+    }
+
+    public void setUsersReacted(Set<User> usersReacted) {
+        this.usersReacted = usersReacted;
     }
 }

@@ -1,12 +1,15 @@
 package pl.jdacewicz.socialmedia.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pl.jdacewicz.socialmedia.domain.Reaction;
 import pl.jdacewicz.socialmedia.domain.ReactionCounter;
+import pl.jdacewicz.socialmedia.domain.User;
+import pl.jdacewicz.socialmedia.service.DBUserDetailsService;
 import pl.jdacewicz.socialmedia.service.ReactionCounterService;
 import pl.jdacewicz.socialmedia.service.ReactionService;
 import pl.jdacewicz.socialmedia.util.FileUtils;
@@ -20,21 +23,27 @@ public class ReactionController {
 
     private ReactionCounterService reactionCounterService;
     private ReactionService reactionService;
+    private DBUserDetailsService detailsService;
 
     @Autowired
-    public ReactionController(ReactionCounterService reactionCounterService, ReactionService reactionService) {
+    public ReactionController(ReactionCounterService reactionCounterService, ReactionService reactionService, DBUserDetailsService detailsService) {
         this.reactionCounterService = reactionCounterService;
         this.reactionService = reactionService;
+        this.detailsService = detailsService;
     }
 
     @PostMapping("/react")
     public String react(@RequestParam Map<String, String> body) {
-        long id = Long.parseLong(body.get("reactionCounterId"));
-        Optional<ReactionCounter> foundReactionCounter = reactionCounterService.getReactionCounter(id);
+        String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
+        long reactionCounterId = Long.parseLong(body.get("reactionCounterId"));
 
-        if (foundReactionCounter.isPresent()) {
+        Optional<User> userLoggedIn = detailsService.getUser(currentUser);
+        Optional<ReactionCounter> foundReactionCounter = reactionCounterService.getReactionCounter(reactionCounterId);
+
+        if (userLoggedIn.isPresent() && foundReactionCounter.isPresent()) {
             ReactionCounter counter = foundReactionCounter.get();
-            counter.adjustCount(1);
+            counter.adjustCount(1, userLoggedIn.get());
+
             reactionCounterService.updateReactionCounter(counter);
         }
         return "redirect:/";
