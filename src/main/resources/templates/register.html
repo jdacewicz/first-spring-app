@@ -3,6 +3,7 @@
 <head>
   <title>Register</title>
   <link rel="stylesheet" th:href="@{/css/main.css}">
+  <link rel="stylesheet" th:href="@{/webjars/tailwindcss/2.1.2/dist/tailwind.min.css}">
 </head>
 <body>
 <ul class="background">
@@ -17,21 +18,28 @@
   <li></li>
   <li></li>
 </ul>
-<form th:action="@{/register}" method="POST" class="login-form">
-  <div>
-    <h1>Register</h1>
-      <label>Username: </label>
-      <input type="text" name="username" required/>
-    </div>
-    <div>
-      <label>Password: </label>
-      <input type="password" name="password" required/>
-    </div>
-    <div>
-      <button type="submit">Register</button>
-    </div>
-  <h4>If You want to log in <a href="/login">CLICK HERE</a>.</h4>
+<div class="flex h-screen justify-center items-center">
+  <div class="absolute max-w-md mb-5 bg-white p-5 shadow">
+    <form th:action="@{/register}" method="POST" class="grid grid-flow-row gap-4">
+      <div class="flex justify-center">
+        <span class="font-bold">Register</span>
+      </div>
+      <div class="flex justify-center">
+        <input class="p-2 pl-4 pr-4 rounded-xl border-2 focus:border-purple-700 transition duration-150 ease-in-out" type="text" name="username" placeholder="Username" required/>
+      </div>
+      <div class="flex justify-center">
+        <input class="p-2 pl-4 pr-4 rounded-xl border-2 focus:border-purple-600 transition duration-150 ease-in-out" type="password" name="password" placeholder="Password" required/>
+      </div>
+      <div class="flex justify-center">
+        <button type="submit" class="inline-block px-6 py-2.5 bg-purple-600 text-white font-medium text-xs leading-tight uppercase rounded-full
+                shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800
+                active:shadow-lg transition duration-150 ease-in-out">Create account</button>
+      </div>
+      <div class="flex justify-center">
+        <span>If You want to log in, <a href="/login">CLICK HERE</a>.</span>
+      </div>
+    </form>
   </div>
-</form>
+</div>
 </body>
 </html>
