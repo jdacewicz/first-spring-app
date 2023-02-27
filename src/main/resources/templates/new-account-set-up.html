@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>Set up your account!</title>
   <link rel="stylesheet" th:href="@{/css/main.css}">
+  <link rel="stylesheet" th:href="@{/webjars/tailwindcss/2.1.2/dist/tailwind.min.css}">
 </head>
 <body>
 <ul class="background">
@@ -18,19 +19,25 @@
   <li></li>
   <li></li>
 </ul>
-  <form th:action="@{/about-you}" method="POST" class="login-form">
-    <h2>Tell us who You're.</h2>
-    <div>
-      <label>Your firstname: </label>
-      <input type="text" name="firstname"/>
-    </div>
-    <div>
-      <label>Your lastname: </label>
-      <input type="text" name="lastname"/>
-    </div>
-    <div>
-      <button type="submit">Finish</button>
-    </div>
-  </form>
+<div class="flex h-screen justify-center items-center">
+  <div class="absolute max-w-md mb-5 bg-white p-5 shadow">
+    <form th:action="@{/about-you}" method="POST" class="grid grid-flow-row gap-4">
+      <div class="flex justify-center">
+        <span class="font-bold">Tell us who You're.</span>
+      </div>
+      <div class="flex justify-center">
+        <input class="p-2 pl-4 pr-4 rounded-xl border-2 focus:border-purple-700 transition duration-150 ease-in-out" type="text" name="firstname" placeholder="Your firstname"/>
+      </div>
+      <div class="flex justify-center">
+        <input class="p-2 pl-4 pr-4 rounded-xl border-2 focus:border-purple-600 transition duration-150 ease-in-out" type="text" name="lastname" placeholder="Your lastname"/>
+      </div>
+      <div class="flex justify-center">
+        <button type="submit" class="inline-block px-6 py-2.5 bg-purple-600 text-white font-medium text-xs leading-tight uppercase rounded-full
+                shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800
+                active:shadow-lg transition duration-150 ease-in-out">Finish</button>
+      </div>
+    </form>
+  </div>
+</div>
 </body>
 </html>
