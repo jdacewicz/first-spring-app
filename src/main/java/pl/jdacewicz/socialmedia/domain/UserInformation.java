@@ -1,12 +1,12 @@
 package pl.jdacewicz.socialmedia.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class UserInformation {
+
+    @Transient
+    public final static String PROFILE_PICTURES_DIRECTORY_PATH = "uploads/user-profile-pictures";
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -15,8 +15,16 @@ public class UserInformation {
     private String lastname;
     private String profilePicture;
     private String gender;
+    @OneToOne(mappedBy = "userInformation")
+    private User user;
 
     public UserInformation() {
+    }
+
+    public String getProfilePicturePath() {
+        if (profilePicture == null) return null;
+
+        return PROFILE_PICTURES_DIRECTORY_PATH + "/" + user.getId() + "/" + profilePicture;
     }
 
     public long getId() {
@@ -57,5 +65,13 @@ public class UserInformation {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

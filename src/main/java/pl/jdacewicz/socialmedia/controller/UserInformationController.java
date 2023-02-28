@@ -54,7 +54,7 @@ public class UserInformationController {
                 String fileName = FileUtils.generateUniqueName(file.getOriginalFilename());
                 info.setProfilePicture(fileName);
 
-                String uploadDir = "uploads/user-photos/" + user.getId() + "/profile-pictures";
+                String uploadDir = UserInformation.PROFILE_PICTURES_DIRECTORY_PATH + "/" + user.getId();
                 FileUtils.saveFile(uploadDir, fileName, file);
             }
             user.setUserInformation(info);
