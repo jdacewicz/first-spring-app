@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -59,9 +58,12 @@ public class PostController {
 
     @GetMapping("/post/{id}")
     public String showPost(@PathVariable Long id, Model model) {
+        String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
+        Optional<User> userLoggedIn = detailsService.getUser(currentUser);
         Optional<Post> post = postService.getPost(id);
 
-        if (post.isPresent()) {
+        if (userLoggedIn.isPresent() && post.isPresent()) {
+            model.addAttribute("user", userLoggedIn.get());
             model.addAttribute("post", post.get());
             return "post";
         }

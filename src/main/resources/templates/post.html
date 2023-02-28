@@ -3,28 +3,93 @@
 <head>
   <meta charset="UTF-8">
   <title>SocialMedia</title>
-  <link rel="stylesheet" th:href="@{/css/main.css}">
+  <link rel="stylesheet" th:href="@{/webjars/tailwindcss/2.1.2/dist/tailwind.min.css}">
 </head>
-<body>
-<div>
-  <div class="post">
-    <div class="first-and-lastname">
-      <span th:text="${post.getPostCreator().getUserInformation().getFirstname()}"/>
-      <span th:text="${post.getPostCreator().getUserInformation().getLastname()}"/>
+<body class="bg-gray-100">
+<div class="fixed max-w-md w-1/5 mb-5 bg-white p-5 shadow h-screen grid grid-flow-row gap-4 rounded-xl">
+  <div class="flex justify-center">
+    <a href="/" class="m-auto">LOGO</a>
+  </div>
+  <div class="grid grid-flow-row auto-rows-max shadow rounded-xl bg-gray-100 p-4">
+    <a th:href="'/user/' + ${user.getId()}">
+      <img class="rounded-full w-8 h-8 inline" th:src="@{${user.getUserInformation().getProfilePicturePath()}}"/>
+      <span class="font-bold" th:text="${user.getUserInformation().getFirstname()} + ' ' + ${user.getUserInformation().getLastname()}"/>
+    </a>
+    <a  href="/new-post">
+      New post
+    </a>
+  </div>
+  <div class="grid grid-flow-row auto-rows-max shadow rounded-xl bg-gray-100 p-4">
+    <span>Admin panel</span>
+    <a href="/admin/new-reaction">
+      New reaction
+    </a>
+  </div>
+  <div class="shadow rounded-xl bg-gray-100 p-4">
+    SUPPORT
+  </div>
+  <div class="flex justify-center">
+    <form name="logoutForm" class="m-auto" th:action="@{/logout}" method="post">
+      <button type="submit" class="inline-block px-6 py-2.5 bg-purple-600 text-white font-medium text-xs leading-tight uppercase rounded-full
+        shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800
+        active:shadow-lg transition duration-150 ease-in-out">Sign out</button>
+    </form>
+  </div>
+  <div class="flex justify-center p-4">
+    <span class="m-auto">FOOTER - PRIVACY - ADS - COOKIE - MORE - Jakub Dacewicz 2023</span>
+  </div>
+</div>
+</div>
+<div class="pt-4">
+  <div class=" max-w-md mx-auto rounded-xl mb-4 bg-white p-4 grid grid-flow-row auto-rows-max shadow">
+    <div class="">
+      <div class="float-left">
+        <a th:href="'/user/' + ${post.getPostCreator().getId()}">
+          <img class="rounded-full w-8 h-8 inline" th:src="@{${post.getPostCreator().getUserInformation().getProfilePicturePath()}}"/>
+          <span class="font-bold" th:text="${post.getPostCreator().getUserInformation().getFirstname()} + ' ' + ${post.getPostCreator().getUserInformation().getLastname()}"/>
+        </a>
+      </div>
+      <div class="float-right">
+        <span th:text="${post.getElapsedCreationTimeMessage() + ' ago.'}"/>
+      </div>
     </div>
-    <div class="creation-time-and-data">
-      <span th:text="${post.getCreationTime()}"/>
-      <span th:text="${post.getCreationDate()}"/>
-    </div>
-    <div class="content">
+    <div class="mt-2">
       <span th:text="${post.getContent()}"/>
     </div>
-    <div>
-      <form th:action="@{/comment}" method="POST">
-        <input type="hidden" name="postId" th:value="${post.getId()}">
-        <input type="text" name="commentContent"/>
-        <button type="submit">Public</button>
-      </form>
+    <div class="mt-2" th:if="${post.getImage()} != null">
+      <a th:href="'/post/' + ${post.getId()}">
+        <img th:src="@{${post.getImagePath()}}"/>
+      </a>
+    </div>
+    <div class="grid grid-flow-col grid-cols-6 mt-2">
+      <div th:each="reactionCounter : ${post.getReactionCounters()}">
+        <form th:action="@{/react}" method="POST">
+          <span th:if="${reactionCounter.getCount() > 0}" th:text="${reactionCounter.getCount()}"/>
+          <input type="hidden" name="reactionCounterId" th:value="${reactionCounter.getId()}">
+          <button class="w-8" type="submit">
+            <img th:src="@{${reactionCounter.getReaction().getImagePath()}}"/>
+          </button>
+        </form>
+      </div>
+    </div>
+    <div class="border-t-2 mt-2">
+      <div class="mt-2" th:each="comment : ${post.getComments()}">
+        <a th:href="'/user/' + ${user.getId()}">
+          <img class="rounded-full w-8 h-8 inline" th:src="@{${comment.getCreator().getUserInformation().getProfilePicturePath()}}"/>
+          <span class="font-bold" th:text="${comment.getCreator().getUserInformation().getFirstname()} + ' ' + ${comment.getCreator().getUserInformation().getLastname()}"/>
+        </a>
+        <a th:href="'/post/' + ${post.getId()}" th:text="${comment.getContent()}"/>
+      </div>
+      <div class="mt-2">
+        <form th:action="@{/comment}" method="POST">
+          <a th:href="'/user/' + ${post.getPostCreator().getId()}" th:text="${user.getUserInformation().getFirstname()} + ' ' + ${user.getUserInformation().getLastname()}"/>
+          <input type="hidden" name="postId" th:value="${post.getId()}">
+          <input class="w-6/12" type="text" name="commentContent" required/>
+          <button class="w-1/12 inline-block px-0.5 py-0.5 bg-purple-600 text-white leading-tight uppercase rounded-full
+            shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800
+            active:shadow-lg transition duration-150 ease-in-out" type="submit">-></button>
+        </form>
+      </div>
     </div>
   </div>
 </div>
