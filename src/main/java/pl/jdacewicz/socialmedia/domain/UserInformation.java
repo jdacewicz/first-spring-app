@@ -24,7 +24,7 @@ public class UserInformation {
     public String getProfilePicturePath() {
         if (profilePicture == null) return null;
 
-        return PROFILE_PICTURES_DIRECTORY_PATH + "/" + user.getId() + "/" + profilePicture;
+        return "/" + PROFILE_PICTURES_DIRECTORY_PATH + "/" + user.getId() + "/" + profilePicture;
     }
 
     public long getId() {
