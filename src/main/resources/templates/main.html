@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <title>SocialMedia</title>
   <link rel="stylesheet" th:href="@{/webjars/tailwindcss/2.1.2/dist/tailwind.min.css}">
+  <script th:src="@{/webjars/jquery/3.6.3/jquery.min.js}"></script>
+  <script th:src="@{/js/main.js}"></script>
 </head>
 <body class="bg-gray-100">
   <div class="fixed max-w-md w-1/5 mb-5 bg-white p-5 shadow h-screen grid grid-flow-row gap-4 rounded-xl">
@@ -40,55 +42,55 @@
     </div>
     </div>
   </div>
-  <div class="pt-4">
-    <div class=" max-w-md mx-auto rounded-xl mb-4 bg-white p-4 grid grid-flow-row auto-rows-max shadow" th:each="post : ${posts}">
+  <div class="pt-4 hidden" id="posts">
+    <div id="post" class="max-w-md mx-auto rounded-xl mb-4 bg-white p-4 grid grid-flow-row auto-rows-max shadow">
       <div class="">
         <div class="float-left">
-          <a th:href="'/user/' + ${post.getPostCreator().getId()}">
-            <img class="rounded-full w-8 h-8 inline" th:src="@{${post.getPostCreator().getUserInformation().getProfilePicturePath()}}"/>
-            <span class="font-bold" th:text="${post.getPostCreator().getUserInformation().getFirstname()} + ' ' + ${post.getPostCreator().getUserInformation().getLastname()}"/>
-          </a>
+<!--          <a th:href="'/user/' + ${post.getPostCreator().getId()}">-->
+            <img class="rounded-full w-8 h-8 inline" id="post-creator-image"/>
+            <span class="font-bold" id="post-creator-identity"/>
+<!--          </a>-->
         </div>
         <div class="float-right">
-          <span th:text="${post.getElapsedCreationTimeMessage() + ' ago.'}"/>
+          <span id="post-elapsed-time"/>
         </div>
       </div>
       <div class="mt-2">
-        <span th:text="${post.getContent()}"/>
+        <span id="post-content"/>
       </div>
-      <div class="mt-2" th:if="${post.getImage()} != null">
-        <a th:href="'/post/' + ${post.getId()}">
-          <img th:src="@{${post.getImagePath()}}"/>
-        </a>
+      <div class="mt-2">
+<!--        <a th:href="'/post/' + ${post.getId()}">-->
+          <img id="post-image"/>
+<!--        </a>-->
       </div>
       <div class="grid grid-flow-col grid-cols-6 mt-2">
-        <div th:each="reactionCounter : ${post.getReactionCounters()}">
-          <form th:action="@{/react}" method="POST">
-            <span th:if="${reactionCounter.getCount() > 0}" th:text="${reactionCounter.getCount()}"/>
-            <input type="hidden" name="reactionCounterId" th:value="${reactionCounter.getId()}">
-            <button class="w-8" type="submit">
-              <img th:src="@{${reactionCounter.getReaction().getImagePath()}}"/>
-            </button>
-          </form>
-        </div>
+<!--        <div th:each="reactionCounter : ${post.getReactionCounters()}">-->
+<!--          <form th:action="@{/react}" method="POST">-->
+<!--            <span th:if="${reactionCounter.getCount() > 0}" th:text="${reactionCounter.getCount()}"/>-->
+<!--            <input type="hidden" name="reactionCounterId" th:value="${reactionCounter.getId()}">-->
+<!--            <button class="w-8" type="submit">-->
+<!--              <img th:src="@{${reactionCounter.getReaction().getImagePath()}}"/>-->
+<!--            </button>-->
+<!--          </form>-->
+<!--        </div>-->
       </div>
       <div class="border-t-2 mt-2">
-        <div class="mt-2" th:each="comment : ${post.getComments()}">
-          <a th:href="'/user/' + ${user.getId()}">
-            <img class="rounded-full w-8 h-8 inline" th:src="@{${comment.getCreator().getUserInformation().getProfilePicturePath()}}"/>
-            <span class="font-bold" th:text="${comment.getCreator().getUserInformation().getFirstname()} + ' ' + ${comment.getCreator().getUserInformation().getLastname()}"/>
-          </a>
-          <a th:href="'/post/' + ${post.getId()}" th:text="${comment.getContent()}"/>
-        </div>
+<!--        <div class="mt-2" th:each="comment : ${post.getComments()}">-->
+<!--          <a th:href="'/user/' + ${user.getId()}">-->
+<!--            <img class="rounded-full w-8 h-8 inline" th:src="@{${comment.getCreator().getUserInformation().getProfilePicturePath()}}"/>-->
+<!--            <span class="font-bold" th:text="${comment.getCreator().getUserInformation().getFirstname()} + ' ' + ${comment.getCreator().getUserInformation().getLastname()}"/>-->
+<!--          </a>-->
+<!--          <a th:href="'/post/' + ${post.getId()}" th:text="${comment.getContent()}"/>-->
+<!--        </div>-->
         <div class="mt-2">
-          <form th:action="@{/comment}" method="POST">
-            <a th:href="'/user/' + ${post.getPostCreator().getId()}" th:text="${user.getUserInformation().getFirstname()} + ' ' + ${user.getUserInformation().getLastname()}"/>
-            <input type="hidden" name="postId" th:value="${post.getId()}">
-            <input class="w-6/12" type="text" name="commentContent" required/>
-            <button class="w-1/12 inline-block px-0.5 py-0.5 bg-purple-600 text-white leading-tight uppercase rounded-full
-            shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800
-            active:shadow-lg transition duration-150 ease-in-out" type="submit">-></button>
-          </form>
+<!--          <form th:action="@{/comment}" method="POST">-->
+<!--            <a th:href="'/user/' + ${post.getPostCreator().getId()}" th:text="${user.getUserInformation().getFirstname()} + ' ' + ${user.getUserInformation().getLastname()}"/>-->
+<!--            <input type="hidden" name="postId" th:value="${post.getId()}">-->
+<!--            <input class="w-6/12" type="text" name="commentContent" required/>-->
+<!--            <button class="w-1/12 inline-block px-0.5 py-0.5 bg-purple-600 text-white leading-tight uppercase rounded-full-->
+<!--            shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800-->
+<!--            active:shadow-lg transition duration-150 ease-in-out" type="submit">-></button>-->
+<!--          </form>-->
         </div>
       </div>
     </div>

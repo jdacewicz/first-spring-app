@@ -31,9 +31,9 @@ public class AppController {
         Optional<User> loggedInUser = userDetailsService.getUser(loggedInUsername);
 
         if (loggedInUser.isPresent()) {
-            List<Post> postList = postService.getRandomPosts();
+//            List<Post> postList = postService.getRandomPosts();
             model.addAttribute("user", loggedInUser.get());
-            model.addAttribute("posts", postList);
+//            model.addAttribute("posts", postList);
             return "main";
         }
         return "redirect:/register";
