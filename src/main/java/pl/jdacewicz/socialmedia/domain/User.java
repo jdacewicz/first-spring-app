@@ -1,5 +1,7 @@
 package pl.jdacewicz.socialmedia.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -10,11 +12,16 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "userId")
     private long id;
+    @JsonIgnore
     private String username;
+    @JsonIgnore
     private String password;
+    @JsonIgnore
     private boolean accountNonLocked = true;
+    @JsonIgnore
     private String role = "ROLE_USER";
     @OneToOne(cascade = {CascadeType.ALL})
+    @JsonManagedReference
     private UserInformation userInformation;
 
     public User() {

@@ -1,5 +1,6 @@
 package pl.jdacewicz.socialmedia.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -16,6 +17,7 @@ public class UserInformation {
     private String profilePicture;
     private String gender;
     @OneToOne(mappedBy = "userInformation")
+    @JsonBackReference
     private User user;
 
     public UserInformation() {
