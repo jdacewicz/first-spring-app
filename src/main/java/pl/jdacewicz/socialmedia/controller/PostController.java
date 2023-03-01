@@ -1,72 +1,41 @@
 package pl.jdacewicz.socialmedia.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.*;
 import pl.jdacewicz.socialmedia.domain.Post;
-import pl.jdacewicz.socialmedia.domain.User;
-import pl.jdacewicz.socialmedia.service.DBUserDetailsService;
+import pl.jdacewicz.socialmedia.payroll.PostNotFoundException;
 import pl.jdacewicz.socialmedia.service.PostService;
-import pl.jdacewicz.socialmedia.util.FileUtils;
 
-import java.io.IOException;
-import java.util.Map;
-import java.util.Optional;
+import java.util.List;
 
-@Controller
+@RestController
 public class PostController {
 
     private PostService postService;
-    private DBUserDetailsService detailsService;
 
     @Autowired
-    public PostController(PostService postService, DBUserDetailsService detailsService) {
+    public PostController(PostService postService) {
         this.postService = postService;
-        this.detailsService = detailsService;
     }
 
-    @GetMapping("/new-post")
-    public String createPostForm() {
-        return "new-post";
+    @GetMapping("/posts")
+    List<Post> getRandomPosts() {
+        return postService.getRandomPosts();
     }
 
-    @PostMapping("/new-post")
-    public String createPost(@RequestParam Map<String, String> body, @RequestParam("image") MultipartFile file) throws IOException {
-        String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
-        Optional<User> userLoggedIn = detailsService.getUser(currentUser);
-
-        Post post = new Post();
-        post.setContent(body.get("content"));
-        post.setPostCreator(userLoggedIn.get());
-        if (!file.isEmpty()) {
-            String fileName = FileUtils.generateUniqueName(file.getOriginalFilename());
-            post.setImage(fileName);
-
-            String uploadDir = "uploads/user-photos/" + userLoggedIn.get().getId();
-            FileUtils.saveFile(uploadDir, fileName, file);
-        }
-        postService.createPost(post);
-
-        return "redirect:/";
+    @PostMapping("/post")
+    Post newPost(@RequestBody Post newPost) {
+        return postService.createPost(newPost);
     }
 
     @GetMapping("/post/{id}")
-    public String showPost(@PathVariable Long id, Model model) {
-        String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
-        Optional<User> userLoggedIn = detailsService.getUser(currentUser);
-        Optional<Post> post = postService.getPost(id);
+    Post getSinglePost(@PathVariable Long id) {
+        return postService.getPost(id)
+                .orElseThrow(() -> new PostNotFoundException(id));
+    }
 
-        if (userLoggedIn.isPresent() && post.isPresent()) {
-            model.addAttribute("user", userLoggedIn.get());
-            model.addAttribute("post", post.get());
-            return "post";
-        }
-        return "error";
+    @DeleteMapping("/post/{id}")
+    void deletePost(@PathVariable Long id) {
+        postService.deletePost(id);
     }
 }

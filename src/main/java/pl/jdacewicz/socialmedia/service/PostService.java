@@ -24,13 +24,14 @@ public class PostService {
         this.reactionRepository = reactionRepository;
     }
 
-    public void createPost(Post post) {
+    public Post createPost(Post post) {
         List<Reaction> reactions = reactionRepository.findAll();
 
         post.setReactionCounters(reactions.stream()
                 .map(r -> new ReactionCounter(r))
                 .toList());
         postRepository.save(post);
+        return post;
     }
 
     public List<Post> getRandomPosts() {
@@ -47,5 +48,10 @@ public class PostService {
 
     public void updatePost(Post post) {
         postRepository.saveAndFlush(post);
+    }
+
+    public void deletePost(Long id) {
+        postRepository.deleteById(id);
+        postRepository.flush();
     }
 }
