@@ -3,7 +3,7 @@ package pl.jdacewicz.socialmedia.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pl.jdacewicz.socialmedia.domain.Post;
-import pl.jdacewicz.socialmedia.payroll.PostNotFoundException;
+import pl.jdacewicz.socialmedia.payroll.NotFoundException;
 import pl.jdacewicz.socialmedia.service.PostService;
 
 import java.util.List;
@@ -31,7 +31,7 @@ public class PostController {
     @GetMapping("/post/{id}")
     Post getSinglePost(@PathVariable Long id) {
         return postService.getPost(id)
-                .orElseThrow(() -> new PostNotFoundException(id));
+                .orElseThrow(() -> new NotFoundException(id));
     }
 
     @DeleteMapping("/post/{id}")
