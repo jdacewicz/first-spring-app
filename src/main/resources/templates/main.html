@@ -44,23 +44,25 @@
   </div>
   <div class="pt-4 hidden" id="posts">
     <div name="post[0]" class="max-w-md mx-auto rounded-xl mb-4 bg-white p-4 grid grid-flow-row auto-rows-max shadow">
-      <div class="">
+      <div>
         <div class="float-left">
-<!--          <a th:href="'/user/' + ${post.getPostCreator().getId()}">-->
-<!--            <img class="rounded-full w-8 h-8 inline" name="post-creator-image"/>-->
-            <span class="font-bold" name="post[0].creator-identity"/>
+            <!--          <a th:href="'/user/' + ${post.getPostCreator().getId()}">-->
+            <div name="post[0].creator">
+                <img class="rounded-full w-8 h-8 inline"/>
+                <span class="font-bold"></span>
+            </div>
 <!--          </a>-->
         </div>
         <div class="float-right">
-          <span name="post[0].elapsed-time"/>
+            <span name="post[0].elapsed-time"></span>
         </div>
       </div>
       <div class="mt-2">
-        <span name="post[0].content"/>
+          <span name="post[0].content"></span>
       </div>
-      <div class="mt-2">
+      <div class="mt-2" name="post[0].image"/>
 <!--        <a th:href="'/post/' + ${post.getId()}">-->
-<!--          <img name="post-image"/>-->
+          <img>
 <!--        </a>-->
       </div>
       <div class="grid grid-flow-col grid-cols-6 mt-2">
