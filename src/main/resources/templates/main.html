@@ -65,16 +65,18 @@
           <img>
 <!--        </a>-->
       </div>
-      <div class="grid grid-flow-col grid-cols-6 mt-2">
-<!--        <div th:each="reactionCounter : ${post.getReactionCounters()}">-->
+      <div name="post[0].reactions" class="grid grid-flow-col grid-cols-6 mt-2">
+        <div name="post[0].reaction[0]">
+            <form>
 <!--          <form th:action="@{/react}" method="POST">-->
 <!--            <span th:if="${reactionCounter.getCount() > 0}" th:text="${reactionCounter.getCount()}"/>-->
-<!--            <input type="hidden" name="reactionCounterId" th:value="${reactionCounter.getId()}">-->
-<!--            <button class="w-8" type="submit">-->
-<!--              <img th:src="@{${reactionCounter.getReaction().getImagePath()}}"/>-->
-<!--            </button>-->
-<!--          </form>-->
-<!--        </div>-->
+              <span></span>
+<!--              <input type="hidden" name="reactionCounterId" th:value="${reactionCounter.getId()}">-->
+              <button class="w-8" type="submit">
+                <img>
+              </button>
+          </form>
+        </div>
       </div>
       <div class="border-t-2 mt-2">
 <!--        <div class="mt-2" th:each="comment : ${post.getComments()}">-->

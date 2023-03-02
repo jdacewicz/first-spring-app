@@ -12,6 +12,17 @@ $(document).ready(function () {
             });
             $("#posts").append(newPost);
 
+            post.reactionCounters.forEach(function (counter) {
+                let newReaction = $(`div[name="post[${post.id}].reaction[0]"]`).eq(0).clone();
+
+                newReaction.attr("name", newReaction.attr("name").replace('[0]', `[${counter.id}]`));
+                $(`div[name="post[${post.id}].reactions"]`).append(newReaction);
+
+                $(`div[name="post[${post.id}].reaction[${counter.reaction.id}]"] span`).text(counter.count);
+                $(`div[name="post[${post.id}].reaction[${counter.reaction.id}]"] img`).attr("src", counter.reaction.imagePath);
+            })
+            $(`div[name="post[${post.id}].reaction[0]"]`).remove();
+
             $(`div[name="post[${post.id}].image"] img`).attr("src", post.imagePath);
             $(`div[name="post[${post.id}].creator"] img`).attr("src", post.postCreator.userInformation.profilePicturePath);
             $(`div[name="post[${post.id}].creator"] span`).text(post.postCreator.userInformation.firstname + " " + post.postCreator.userInformation.lastname);
