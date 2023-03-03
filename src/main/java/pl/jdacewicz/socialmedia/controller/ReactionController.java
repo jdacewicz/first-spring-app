@@ -1,71 +1,51 @@
 package pl.jdacewicz.socialmedia.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import pl.jdacewicz.socialmedia.domain.Reaction;
-import pl.jdacewicz.socialmedia.domain.ReactionCounter;
-import pl.jdacewicz.socialmedia.domain.User;
-import pl.jdacewicz.socialmedia.service.DBUserDetailsService;
-import pl.jdacewicz.socialmedia.service.ReactionCounterService;
+import pl.jdacewicz.socialmedia.payroll.NotFoundException;
 import pl.jdacewicz.socialmedia.service.ReactionService;
-import pl.jdacewicz.socialmedia.util.FileUtils;
 
-import java.io.IOException;
-import java.util.Map;
-import java.util.Optional;
+import java.util.List;
 
-@Controller
+@RestController
 public class ReactionController {
 
-    private ReactionCounterService reactionCounterService;
     private ReactionService reactionService;
-    private DBUserDetailsService detailsService;
 
     @Autowired
-    public ReactionController(ReactionCounterService reactionCounterService, ReactionService reactionService, DBUserDetailsService detailsService) {
-        this.reactionCounterService = reactionCounterService;
+    public ReactionController(ReactionService reactionService) {
         this.reactionService = reactionService;
-        this.detailsService = detailsService;
     }
 
-    @PostMapping("/react")
-    public String react(@RequestParam Map<String, String> body) {
-        String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
-        long reactionCounterId = Long.parseLong(body.get("reactionCounterId"));
-
-        Optional<User> userLoggedIn = detailsService.getUser(currentUser);
-        Optional<ReactionCounter> foundReactionCounter = reactionCounterService.getReactionCounter(reactionCounterId);
-
-        if (userLoggedIn.isPresent() && foundReactionCounter.isPresent()) {
-            ReactionCounter counter = foundReactionCounter.get();
-            counter.changeCount(1, userLoggedIn.get());
-
-            reactionCounterService.updateReactionCounter(counter);
-        }
-        return "redirect:/";
+    @GetMapping("/reactions")
+    public List<Reaction> getAll() {
+        return reactionService.getAllReactions();
     }
 
-    @GetMapping("/admin/new-reaction")
-    public String reactionCreatingForm() {
-        return "/admin/panel-reaction";
+    @GetMapping("/reaction/{id}")
+    public Reaction get(@PathVariable Long id) {
+        return reactionService.getReaction(id)
+                .orElseThrow(() -> new NotFoundException(id));
     }
 
-    @PostMapping("/admin/new-reaction")
-    public String createReaction(@RequestParam Map<String, String> body, @RequestParam("image") MultipartFile file) throws IOException {
-        String fileName = FileUtils.generateUniqueName(file.getOriginalFilename());
+    @PutMapping("/reaction/{id}")
+    public Reaction replace(@RequestBody Reaction newReaction, @PathVariable Long id) {
+        return reactionService.getReaction(id).map(reaction -> {
+            reaction.setName(newReaction.getName());
+            reaction.setImage(newReaction.getImage());
+            return reactionService.saveReaction(reaction);
 
-        Reaction newReaction = new Reaction();
-        newReaction.setName(body.get("name"));
-        newReaction.setImage(fileName);
+        }).orElseGet(() -> reactionService.saveReaction(newReaction));
+    }
 
-        String uploadDir = "uploads/reactions";
-        FileUtils.saveFile(uploadDir, fileName, file);
+    @PostMapping("/reaction")
+    public Reaction create(@RequestBody Reaction newReaction) {
+        return reactionService.saveReaction(newReaction);
+    }
 
-        reactionService.createReaction(newReaction);
-        return "redirect:/";
+    @DeleteMapping("/reaction/{id}")
+    public void delete(@PathVariable Long id){
+        reactionService.deleteReaction(id);
     }
 }
