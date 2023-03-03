@@ -21,7 +21,7 @@ public class ReactionCounterService {
         return reactionCounterRepository.findById(id);
     }
 
-    public ReactionCounter updateReactionCounter(ReactionCounter reactionCounter) {
+    public ReactionCounter saveReactionCounter(ReactionCounter reactionCounter) {
         return reactionCounterRepository.save(reactionCounter);
     }
 }

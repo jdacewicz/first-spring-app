@@ -18,7 +18,13 @@ public class ReactionCounterController {
 
     @PutMapping("/reaction-counter/{id}")
     public ReactionCounter replaceReactionCounter(@RequestBody ReactionCounter newReactionCounter, @PathVariable Long id) {
-        return counterService.updateReactionCounter(newReactionCounter);
+        return counterService.getReactionCounter(id).map(counter -> {
+            counter.setReaction(newReactionCounter.getReaction());
+            counter.setCount(newReactionCounter.getCount());
+            counter.setUsersReacted(newReactionCounter.getUsersReacted());
+            return counterService.saveReactionCounter(newReactionCounter);
+
+        }).orElseGet(() -> counterService.saveReactionCounter(newReactionCounter));
     }
     @GetMapping("/reaction-counter/{id}")
     public ReactionCounter getReactionsByPostId(@PathVariable Long id) {
